@@ -28,6 +28,7 @@ class PdfViewerParams {
     this.onInteractionEnd,
     this.onInteractionStart,
     this.onInteractionUpdate,
+    this.interactionEndFrictionCoefficient = _kDrag,
     this.onDocumentChanged,
     this.calculateInitialPageNumber,
     this.onViewerReady,
@@ -139,6 +140,13 @@ class PdfViewerParams {
 
   /// See [InteractiveViewer.onInteractionUpdate] for details.
   final GestureScaleUpdateCallback? onInteractionUpdate;
+
+  /// See [InteractiveViewer.interactionEndFrictionCoefficient] for details.
+  final double interactionEndFrictionCoefficient;
+
+  // Used as the coefficient of friction in the inertial translation animation.
+  // This value was eyeballed to give a feel similar to Google Photos.
+  static const double _kDrag = 0.0000135;
 
   /// Function to notify that the document is loaded/changed.
   ///
@@ -311,6 +319,8 @@ class PdfViewerParams {
         other.enableTextSelection != enableTextSelection ||
         other.panEnabled != panEnabled ||
         other.scaleEnabled != scaleEnabled ||
+        other.interactionEndFrictionCoefficient !=
+            interactionEndFrictionCoefficient ||
         other.scrollByMouseWheel != scrollByMouseWheel ||
         other.enableKeyboardNavigation != enableKeyboardNavigation ||
         other.scrollByArrowKey != scrollByArrowKey ||
@@ -338,6 +348,8 @@ class PdfViewerParams {
         other.onInteractionEnd == onInteractionEnd &&
         other.onInteractionStart == onInteractionStart &&
         other.onInteractionUpdate == onInteractionUpdate &&
+        other.interactionEndFrictionCoefficient ==
+            interactionEndFrictionCoefficient &&
         other.onDocumentChanged == onDocumentChanged &&
         other.calculateInitialPageNumber == calculateInitialPageNumber &&
         other.onViewerReady == onViewerReady &&
@@ -375,6 +387,7 @@ class PdfViewerParams {
         onInteractionEnd.hashCode ^
         onInteractionStart.hashCode ^
         onInteractionUpdate.hashCode ^
+        interactionEndFrictionCoefficient.hashCode ^
         onDocumentChanged.hashCode ^
         calculateInitialPageNumber.hashCode ^
         onViewerReady.hashCode ^
