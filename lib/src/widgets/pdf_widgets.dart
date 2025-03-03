@@ -37,7 +37,11 @@ import '../../pdfrx.dart';
 /// ),
 /// ```
 class PdfDocumentViewBuilder extends StatefulWidget {
-  const PdfDocumentViewBuilder({required this.documentRef, required this.builder, super.key});
+  const PdfDocumentViewBuilder({
+    required this.documentRef,
+    required this.builder,
+    super.key,
+  });
 
   PdfDocumentViewBuilder.asset(
     String assetName, {
@@ -47,11 +51,11 @@ class PdfDocumentViewBuilder extends StatefulWidget {
     bool firstAttemptByEmptyPassword = true,
     bool autoDispose = true,
   }) : documentRef = PdfDocumentRefAsset(
-         assetName,
-         passwordProvider: passwordProvider,
-         firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
-         autoDispose: autoDispose,
-       );
+          assetName,
+          passwordProvider: passwordProvider,
+          firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
+          autoDispose: autoDispose,
+        );
 
   PdfDocumentViewBuilder.file(
     String filePath, {
@@ -61,11 +65,11 @@ class PdfDocumentViewBuilder extends StatefulWidget {
     bool firstAttemptByEmptyPassword = true,
     bool autoDispose = true,
   }) : documentRef = PdfDocumentRefFile(
-         filePath,
-         passwordProvider: passwordProvider,
-         firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
-         autoDispose: autoDispose,
-       );
+          filePath,
+          passwordProvider: passwordProvider,
+          firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
+          autoDispose: autoDispose,
+        );
 
   PdfDocumentViewBuilder.uri(
     Uri uri, {
@@ -74,18 +78,12 @@ class PdfDocumentViewBuilder extends StatefulWidget {
     PdfPasswordProvider? passwordProvider,
     bool firstAttemptByEmptyPassword = true,
     bool autoDispose = true,
-    bool preferRangeAccess = false,
-    Map<String, String>? headers,
-    bool withCredentials = false,
   }) : documentRef = PdfDocumentRefUri(
-         uri,
-         passwordProvider: passwordProvider,
-         firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
-         autoDispose: autoDispose,
-         preferRangeAccess: preferRangeAccess,
-         headers: headers,
-         withCredentials: withCredentials,
-       );
+          uri,
+          passwordProvider: passwordProvider,
+          firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
+          autoDispose: autoDispose,
+        );
 
   /// A reference to the PDF document.
   final PdfDocumentRef documentRef;
@@ -125,12 +123,18 @@ class _PdfDocumentViewBuilderState extends State<PdfDocumentViewBuilder> {
   @override
   Widget build(BuildContext context) {
     final listenable = widget.documentRef.resolveListenable();
-    return widget.builder(context, listenable.document);
+    return widget.builder(
+      context,
+      listenable.document,
+    );
   }
 }
 
 /// A function that builds a widget tree with the PDF document.
-typedef PdfDocumentViewBuilderFunction = Widget Function(BuildContext context, PdfDocument? document);
+typedef PdfDocumentViewBuilderFunction = Widget Function(
+  BuildContext context,
+  PdfDocument? document,
+);
 
 /// Function to calculate the size of the page based on the size of the widget.
 ///
@@ -138,7 +142,10 @@ typedef PdfDocumentViewBuilderFunction = Widget Function(BuildContext context, P
 /// [page] is the page to be displayed.
 ///
 /// The function returns the size of the page.
-typedef PdfPageViewSizeCallback = Size Function(Size biggestSize, PdfPage page);
+typedef PdfPageViewSizeCallback = Size Function(
+  Size biggestSize,
+  PdfPage page,
+);
 
 /// Function to build a widget that wraps the page image.
 ///
@@ -151,22 +158,25 @@ typedef PdfPageViewSizeCallback = Size Function(Size biggestSize, PdfPage page);
 /// [pageImage] is the page image; it is null if the page is not rendered yet.
 /// The image size may be different from [pageSize] because of the screen DPI
 /// or some other reasons.
-typedef PdfPageViewDecorationBuilder =
-    Widget Function(BuildContext context, Size pageSize, PdfPage page, RawImage? pageImage);
+typedef PdfPageViewDecorationBuilder = Widget Function(
+  BuildContext context,
+  Size pageSize,
+  PdfPage page,
+  RawImage? pageImage,
+);
 
 /// A widget that displays a page of a PDF document.
 class PdfPageView extends StatefulWidget {
-  const PdfPageView({
-    required this.document,
-    required this.pageNumber,
-    this.maximumDpi = 300,
-    this.alignment = Alignment.center,
-    this.decoration,
-    this.backgroundColor,
-    this.pageSizeCallback,
-    this.decorationBuilder,
-    super.key,
-  });
+  const PdfPageView(
+      {required this.document,
+      required this.pageNumber,
+      this.maximumDpi = 300,
+      this.alignment = Alignment.center,
+      this.decoration,
+      this.backgroundColor,
+      this.pageSizeCallback,
+      this.decorationBuilder,
+      super.key});
 
   /// The PDF document.
   final PdfDocument? document;
@@ -210,12 +220,16 @@ class _PdfPageViewState extends State<PdfPageView> {
 
   @override
   void dispose() {
-    _image?.dispose();
     _cancellationToken?.cancel();
     super.dispose();
   }
 
-  Widget _defaultDecorationBuilder(BuildContext context, Size pageSize, PdfPage page, RawImage? pageImage) {
+  Widget _defaultDecorationBuilder(
+    BuildContext context,
+    Size pageSize,
+    PdfPage page,
+    RawImage? pageImage,
+  ) {
     return Align(
       alignment: widget.alignment,
       child: AspectRatio(
@@ -223,11 +237,16 @@ class _PdfPageViewState extends State<PdfPageView> {
         child: Stack(
           children: [
             Container(
-              decoration:
-                  widget.decoration ??
+              decoration: widget.decoration ??
                   BoxDecoration(
-                    color: pageImage == null ? widget.backgroundColor ?? Colors.white : Colors.transparent,
-                    boxShadow: const [BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(2, 2))],
+                    color: widget.backgroundColor ?? Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        blurRadius: 4,
+                        offset: const Offset(2, 2),
+                      ),
+                    ],
                   ),
             ),
             if (pageImage != null) pageImage,
@@ -245,19 +264,16 @@ class _PdfPageViewState extends State<PdfPageView> {
         _updateImage(constraints.biggest * query.devicePixelRatio);
 
         if (_pageSize != null) {
-          final decorationBuilder = widget.decorationBuilder ?? _defaultDecorationBuilder;
-          final scale = min(constraints.maxWidth / _pageSize!.width, constraints.maxHeight / _pageSize!.height);
+          final decorationBuilder =
+              widget.decorationBuilder ?? _defaultDecorationBuilder;
           return decorationBuilder(
             context,
             _pageSize!,
             widget.document!.pages[widget.pageNumber - 1],
             _image != null
                 ? RawImage(
-                  image: _image,
-                  width: _pageSize!.width * scale,
-                  height: _pageSize!.height * scale,
-                  fit: BoxFit.fill,
-                )
+                    image: _image,
+                  )
                 : null,
           );
         }
@@ -268,7 +284,10 @@ class _PdfPageViewState extends State<PdfPageView> {
 
   Future<void> _updateImage(Size size) async {
     final document = widget.document;
-    if (document == null || widget.pageNumber < 1 || widget.pageNumber > document.pages.length || size.isEmpty) {
+    if (document == null ||
+        widget.pageNumber < 1 ||
+        widget.pageNumber > document.pages.length ||
+        size.isEmpty) {
       return;
     }
     final page = document.pages[widget.pageNumber - 1];
@@ -277,8 +296,14 @@ class _PdfPageViewState extends State<PdfPageView> {
     if (widget.pageSizeCallback != null) {
       pageSize = widget.pageSizeCallback!(size, page);
     } else {
-      final scale = min(widget.maximumDpi / 72, min(size.width / page.width, size.height / page.height));
-      pageSize = Size(page.width * scale, page.height * scale);
+      final scale = min(
+        widget.maximumDpi / 72,
+        min(size.width / page.width, size.height / page.height),
+      );
+      pageSize = Size(
+        page.width * scale,
+        page.height * scale,
+      );
     }
 
     if (pageSize == _pageSize) return;
@@ -294,11 +319,10 @@ class _PdfPageViewState extends State<PdfPageView> {
     if (pageImage == null) return;
     final newImage = await pageImage.createImage();
     pageImage.dispose();
-    final oldImage = _image;
-    _image = newImage;
-    oldImage?.dispose();
     if (mounted) {
-      setState(() {});
+      setState(() {
+        _image = newImage;
+      });
     }
   }
 }

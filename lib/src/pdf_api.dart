@@ -5,49 +5,10 @@ import 'dart:ui' as ui;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 // The trick to support Flutter Web is to use conditional import
 // Both of the files define PdfDocumentFactoryImpl class but only one of them is imported.
-import '../pdfrx.dart';
-import 'web/pdfrx_web.dart' if (dart.library.io) 'pdfium/pdfrx_pdfium.dart';
-
-/// Class to provide Pdfrx's configuration.
-/// The parameters should be set before calling any Pdfrx's functions.
-abstract class Pdfrx {
-  /// Explicitly specify pdfium module path for special purpose.
-  ///
-  /// It is not supported on Flutter Web.
-  static String? pdfiumModulePath;
-
-  /// Font paths scanned by pdfium if supported.
-  ///
-  /// It is not supported on Flutter Web.
-  static final fontPaths = <String>[];
-
-  /// Overriding the default HTTP client for PDF download.
-  ///
-  /// It is not supported on Flutter Web.
-  static http.Client Function()? createHttpClient;
-
-  /// Select the Web runtime type.
-  static PdfrxWebRuntimeType webRuntimeType = PdfrxWebRuntimeType.pdfjs;
-
-  /// To override the default pdfium WASM modules URL.
-  ///
-  /// It should be full
-  /// It is used only when on Flutter Web with [Pdfrx.webRuntimeType] is [PdfrxWebRuntimeType.pdfiumWasm].
-  static String? pdfiumWasmModulesUrl;
-}
-
-/// Web runtime type.
-enum PdfrxWebRuntimeType {
-  /// Use PDF.js.
-  pdfjs,
-
-  /// Use PDFium (WASM).
-  pdfiumWasm,
-}
+import 'pdfium/pdfrx_pdfium.dart' if (dart.library.js) 'web/pdfrx_web.dart';
 
 /// For platform abstraction purpose; use [PdfDocument] instead.
 abstract class PdfDocumentFactory {
@@ -64,7 +25,6 @@ abstract class PdfDocumentFactory {
     PdfPasswordProvider? passwordProvider,
     bool firstAttemptByEmptyPassword = true,
     String? sourceName,
-    bool allowDataOwnershipTransfer = false,
     void Function()? onDispose,
   });
 
@@ -77,7 +37,8 @@ abstract class PdfDocumentFactory {
 
   /// See [PdfDocument.openCustom].
   Future<PdfDocument> openCustom({
-    required FutureOr<int> Function(Uint8List buffer, int position, int size) read,
+    required FutureOr<int> Function(Uint8List buffer, int position, int size)
+        read,
     required int fileSize,
     required String sourceName,
     PdfPasswordProvider? passwordProvider,
@@ -94,13 +55,11 @@ abstract class PdfDocumentFactory {
     PdfDownloadProgressCallback? progressCallback,
     PdfDownloadReportCallback? reportCallback,
     bool preferRangeAccess = false,
-    Map<String, String>? headers,
-    bool withCredentials = false,
   });
 
   /// Singleton [PdfDocumentFactory] instance.
   ///
-  /// It is used to switch PDFium/web implementation based on the running platform and of course, you can
+  /// It is used to switch pdfium/web implementation based on the running platform and of course, you can
   /// override it to use your own implementation.
   static PdfDocumentFactory instance = PdfDocumentFactoryImpl();
 }
@@ -109,21 +68,28 @@ abstract class PdfDocumentFactory {
 ///
 /// [downloadedBytes] is the number of bytes downloaded so far.
 /// [totalBytes] is the total number of bytes to download. It may be null if the total size is unknown.
-typedef PdfDownloadProgressCallback = void Function(int downloadedBytes, [int? totalBytes]);
+typedef PdfDownloadProgressCallback = void Function(
+  int downloadedBytes, [
+  int? totalBytes,
+]);
 
 /// Callback function to report download status on completion.
 ///
 /// [downloaded] is the number of bytes downloaded.
 /// [total] is the total number of bytes downloaded.
 /// [elapsedTime] is the time taken to download the file.
-typedef PdfDownloadReportCallback = void Function(int downloaded, int total, Duration elapsedTime);
+typedef PdfDownloadReportCallback = void Function(
+  int downloaded,
+  int total,
+  Duration elapsedTime,
+);
 
 /// Function to provide password for encrypted PDF.
 ///
 /// The function is called when PDF requires password.
-/// It is repeatedly called until the function returns null or a valid password.
+/// It is repeatedly called until the function returns null or the password is correct.
 ///
-/// [createSimplePasswordProvider] is a helper function to create [PdfPasswordProvider] that returns the password
+/// [createOneTimePasswordProvider] is a helper function to create [PdfPasswordProvider] that returns the password
 /// only once.
 typedef PdfPasswordProvider = FutureOr<String?> Function();
 
@@ -131,7 +97,7 @@ typedef PdfPasswordProvider = FutureOr<String?> Function();
 ///
 /// The returned [PdfPasswordProvider] returns the password only once and returns null afterwards.
 /// If [password] is null, the returned [PdfPasswordProvider] returns null always.
-PdfPasswordProvider createSimplePasswordProvider(String? password) {
+PdfPasswordProvider createOneTimePasswordProvider(String? password) {
   return () {
     final ret = password;
     password = null;
@@ -158,32 +124,34 @@ abstract class PdfDocument {
   /// For Web, [filePath] can be relative path from `index.html` or any arbitrary URL but it may be restricted by CORS.
   ///
   /// [passwordProvider] is used to provide password for encrypted PDF. See [PdfPasswordProvider] for more info.
-  /// [firstAttemptByEmptyPassword] is used to determine whether the first attempt to open the PDF is by empty
-  /// password or not. For more info, see [PdfPasswordProvider].
+  /// [firstAttemptByEmptyPassword] is used to determine whether the first attempt to open the PDF is by empty password
+  /// or not. For more info, see [PdfPasswordProvider].
   static Future<PdfDocument> openFile(
     String filePath, {
     PdfPasswordProvider? passwordProvider,
     bool firstAttemptByEmptyPassword = true,
-  }) => PdfDocumentFactory.instance.openFile(
-    filePath,
-    passwordProvider: passwordProvider,
-    firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
-  );
+  }) =>
+      PdfDocumentFactory.instance.openFile(
+        filePath,
+        passwordProvider: passwordProvider,
+        firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
+      );
 
   /// Opening the specified asset.
   ///
   /// [passwordProvider] is used to provide password for encrypted PDF. See [PdfPasswordProvider] for more info.
-  /// [firstAttemptByEmptyPassword] is used to determine whether the first attempt to open the PDF is by empty
-  /// password or not. For more info, see [PdfPasswordProvider].
+  /// [firstAttemptByEmptyPassword] is used to determine whether the first attempt to open the PDF is by empty password
+  /// or not. For more info, see [PdfPasswordProvider].
   static Future<PdfDocument> openAsset(
     String name, {
     PdfPasswordProvider? passwordProvider,
     bool firstAttemptByEmptyPassword = true,
-  }) => PdfDocumentFactory.instance.openAsset(
-    name,
-    passwordProvider: passwordProvider,
-    firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
-  );
+  }) =>
+      PdfDocumentFactory.instance.openAsset(
+        name,
+        passwordProvider: passwordProvider,
+        firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
+      );
 
   /// Opening the PDF on memory.
   ///
@@ -191,26 +159,22 @@ abstract class PdfDocument {
   /// [firstAttemptByEmptyPassword] is used to determine whether the first attempt to open the PDF is by empty password
   /// or not. For more info, see [PdfPasswordProvider].
   ///
-  /// [sourceName] must be some ID, e.g., file name or URL, to identify the source of the PDF. If [sourceName] is not
-  /// unique for each source, the viewer may not work correctly.
-  ///
-  /// Web only: [allowDataOwnershipTransfer] is used to determine if the data buffer can be transferred to
-  /// the worker thread.
+  /// [sourceName] can be any arbitrary string to identify the source of the PDF; [data] does not identify the source
+  /// if such name is explicitly specified.
   static Future<PdfDocument> openData(
     Uint8List data, {
     PdfPasswordProvider? passwordProvider,
     bool firstAttemptByEmptyPassword = true,
     String? sourceName,
-    bool allowDataOwnershipTransfer = false,
     void Function()? onDispose,
-  }) => PdfDocumentFactory.instance.openData(
-    data,
-    passwordProvider: passwordProvider,
-    firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
-    sourceName: sourceName,
-    allowDataOwnershipTransfer: allowDataOwnershipTransfer,
-    onDispose: onDispose,
-  );
+  }) =>
+      PdfDocumentFactory.instance.openData(
+        data,
+        passwordProvider: passwordProvider,
+        firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
+        sourceName: sourceName,
+        onDispose: onDispose,
+      );
 
   /// Opening the PDF from custom source.
   ///
@@ -219,28 +183,30 @@ abstract class PdfDocument {
   /// The default size is 1MB.
   ///
   /// [passwordProvider] is used to provide password for encrypted PDF. See [PdfPasswordProvider] for more info.
-  /// [firstAttemptByEmptyPassword] is used to determine whether the first attempt to open the PDF is by empty
-  /// password or not. For more info, see [PdfPasswordProvider].
+  /// [firstAttemptByEmptyPassword] is used to determine whether the first attempt to open the PDF is by empty password
+  /// or not. For more info, see [PdfPasswordProvider].
   ///
-  /// [sourceName] must be some ID, e.g., file name or URL, to identify the source of the PDF. If [sourceName] is not
-  /// unique for each source, the viewer may not work correctly.
+  /// [sourceName] can be any arbitrary string to identify the source of the PDF; Neither of [read]/[fileSize]
+  /// identify the source if such name is explicitly specified.
   static Future<PdfDocument> openCustom({
-    required FutureOr<int> Function(Uint8List buffer, int position, int size) read,
+    required FutureOr<int> Function(Uint8List buffer, int position, int size)
+        read,
     required int fileSize,
     required String sourceName,
     PdfPasswordProvider? passwordProvider,
     bool firstAttemptByEmptyPassword = true,
     int? maxSizeToCacheOnMemory,
     void Function()? onDispose,
-  }) => PdfDocumentFactory.instance.openCustom(
-    read: read,
-    fileSize: fileSize,
-    sourceName: sourceName,
-    passwordProvider: passwordProvider,
-    firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
-    maxSizeToCacheOnMemory: maxSizeToCacheOnMemory,
-    onDispose: onDispose,
-  );
+  }) =>
+      PdfDocumentFactory.instance.openCustom(
+        read: read,
+        fileSize: fileSize,
+        sourceName: sourceName,
+        passwordProvider: passwordProvider,
+        firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
+        maxSizeToCacheOnMemory: maxSizeToCacheOnMemory,
+        onDispose: onDispose,
+      );
 
   /// Opening the PDF from URI.
   ///
@@ -249,14 +215,12 @@ abstract class PdfDocument {
   /// For other platforms, it uses [pdfDocumentFromUri] that uses HTTP's range request to download the file.
   ///
   /// [passwordProvider] is used to provide password for encrypted PDF. See [PdfPasswordProvider] for more info.
-  /// [firstAttemptByEmptyPassword] is used to determine whether the first attempt to open the PDF is by empty
-  /// password or not. For more info, see [PdfPasswordProvider].
+  /// [firstAttemptByEmptyPassword] is used to determine whether the first attempt to open the PDF is by empty password
+  /// or not. For more info, see [PdfPasswordProvider].
   ///
   /// [progressCallback] is called when the download progress is updated (Not supported on Web).
   /// [reportCallback] is called when the download is completed (Not supported on Web).
   /// [preferRangeAccess] to prefer range access to download the PDF (Not supported on Web).
-  /// [headers] is used to specify additional HTTP headers especially for authentication/authorization.
-  /// [withCredentials] is used to specify whether to include credentials in the request (Only supported on Web).
   static Future<PdfDocument> openUri(
     Uri uri, {
     PdfPasswordProvider? passwordProvider,
@@ -264,18 +228,15 @@ abstract class PdfDocument {
     PdfDownloadProgressCallback? progressCallback,
     PdfDownloadReportCallback? reportCallback,
     bool preferRangeAccess = false,
-    Map<String, String>? headers,
-    bool withCredentials = false,
-  }) => PdfDocumentFactory.instance.openUri(
-    uri,
-    passwordProvider: passwordProvider,
-    firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
-    progressCallback: progressCallback,
-    reportCallback: reportCallback,
-    preferRangeAccess: preferRangeAccess,
-    headers: headers,
-    withCredentials: withCredentials,
-  );
+  }) =>
+      PdfDocumentFactory.instance.openUri(
+        uri,
+        passwordProvider: passwordProvider,
+        firstAttemptByEmptyPassword: firstAttemptByEmptyPassword,
+        progressCallback: progressCallback,
+        reportCallback: reportCallback,
+        preferRangeAccess: preferRangeAccess,
+      );
 
   /// Pages.
   List<PdfPage> get pages;
@@ -305,9 +266,6 @@ abstract class PdfPage {
   /// PDF page height in points (height in pixels at 72 dpi) (rotated).
   double get height;
 
-  /// PDF page size in points (size in pixels at 72 dpi) (rotated).
-  Size get size => Size(width, height);
-
   /// PDF page rotation.
   PdfPageRotation get rotation;
 
@@ -321,10 +279,6 @@ abstract class PdfPage {
   /// [backgroundColor] is used to fill the background of the page. If no color is specified, [Colors.white] is used.
   /// - [annotationRenderingMode] controls to render annotations or not. The default is [PdfAnnotationRenderingMode.annotationAndForms].
   /// - [cancellationToken] can be used to cancel the rendering process. It must be created by [createCancellationToken].
-  ///
-  /// The following figure illustrates what each parameter means:
-  ///
-  /// ![image](data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM4MCIgdmlld0JveD0iMCAwIDMxMjMgMTg1MyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBvdmVyZmxvdz0iaGlkZGVuIj48ZGVmcz48Y2xpcFBhdGggaWQ9InByZWZpeF9fYSI+PHBhdGggZD0iTTQ4MiAxNDhoMzEyM3YxODUzSDQ4MnoiLz48L2NsaXBQYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjcHJlZml4X19hKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTQ4MiAtMTQ4KSI+PHBhdGggZmlsbD0iI0ZGRiIgZD0iTTQ4MiAxNDhoMzEyM3YxODUzSDQ4MnoiLz48cGF0aCBkPSJNMTE5Ny41IDQ1MS41aDgwOC44TTY2NC41IDExODkuNWwxMzQxLjQgNTAzLjQ2IiBzdHJva2U9IiNCRkJGQkYiIHN0cm9rZS13aWR0aD0iMS4xNDYiIHN0cm9rZS1taXRlcmxpbWl0PSI4IiBzdHJva2UtZGFzaGFycmF5PSI0LjU4MyAzLjQzOCIgZmlsbD0ibm9uZSIvPjxwYXRoIHN0cm9rZT0iI0JGQkZCRiIgc3Ryb2tlLXdpZHRoPSI2Ljg3NSIgc3Ryb2tlLW1pdGVybGltaXQ9IjgiIGZpbGw9IiNEOUQ5RDkiIGQ9Ik0yMDA1LjUgNDUxLjVoMTMwNnYxMjQxaC0xMzA2eiIvPjxwYXRoIHN0cm9rZT0iI0JGQkZCRiIgc3Ryb2tlLXdpZHRoPSI2Ljg3NSIgc3Ryb2tlLW1pdGVybGltaXQ9IjgiIGZpbGw9IiNEOUQ5RDkiIGQ9Ik0yMzI2LjUgMTEzNi41aDYyMnY0MjNoLTYyMnoiLz48cGF0aCBkPSJNMjE0Ni41IDk3N2MwLTE5My4wMjQgMjIyLjUxLTM0OS41IDQ5Ny0zNDkuNXM0OTcgMTU2LjQ3NiA0OTcgMzQ5LjVjMCAxOTMuMDItMjIyLjUxIDM0OS41LTQ5NyAzNDkuNXMtNDk3LTE1Ni40OC00OTctMzQ5LjV6IiBmaWxsPSIjRjJGMkYyIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cGF0aCBkPSJNMjQzMi41MSA4NzIuNDczYzAtMjAuMTA2IDIzLjE3LTM2LjQwNiA1MS43Ny0zNi40MDYgMjguNTkgMCA1MS43NyAxNi4zIDUxLjc3IDM2LjQwNiAwIDIwLjEwNy0yMy4xOCAzNi40MDctNTEuNzcgMzYuNDA3LTI4LjYgMC01MS43Ny0xNi4zLTUxLjc3LTM2LjQwN20zMTguNDQgMGMwLTIwLjEwNiAyMy4xOC0zNi40MDYgNTEuNzctMzYuNDA2IDI4LjYgMCA1MS43NyAxNi4zIDUxLjc3IDM2LjQwNiAwIDIwLjEwNy0yMy4xNyAzNi40MDctNTEuNzcgMzYuNDA3LTI4LjU5IDAtNTEuNzctMTYuMy01MS43Ny0zNi40MDciIHN0cm9rZT0iI0JGQkZCRiIgc3Ryb2tlLXdpZHRoPSI2Ljg3NSIgc3Ryb2tlLW1pdGVybGltaXQ9IjgiIGZpbGw9IiNDM0MzQzMiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjxwYXRoIGQ9Ik0yMzc0LjEyIDExMjkuNDJjMTc5LjU5IDg2LjczIDM1OC45NiA4Ni43MyA1MzguMTMgME0yMTQ2LjUgOTc3YzAtMTkzLjAyNCAyMjIuNTEtMzQ5LjUgNDk3LTM0OS41czQ5NyAxNTYuNDc2IDQ5NyAzNDkuNWMwIDE5My4wMi0yMjIuNTEgMzQ5LjUtNDk3IDM0OS41cy00OTctMTU2LjQ4LTQ5Ny0zNDkuNXoiIHN0cm9rZT0iI0JGQkZCRiIgc3Ryb2tlLXdpZHRoPSI2Ljg3NSIgc3Ryb2tlLW1pdGVybGltaXQ9IjgiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMjAyOC40MiAxNzI5LjA2aDEyNTkuMzZ2Ni44OEgyMDI4LjQyem00LjU4IDE3LjE5bC0yNy41LTEzLjc1IDI3LjUtMTMuNzV6bTEyNTAuMTktMjcuNWwyNy41IDEzLjc1LTI3LjUgMTMuNzV6Ii8+PHRleHQgZm9udC1mYW1pbHk9IkNvbnNvbGFzLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI0MDAiIGZvbnQtc2l6ZT0iODMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0NTIgMTgwNSkiPmZ1bGxXaWR0aDwvdGV4dD48cGF0aCBkPSJNMzM2Mi45NCA0NzQuNDE2VjE2NzAuMzJoLTYuODhWNDc0LjQxNnpNMzM0NS43NSA0NzlsMTMuNzUtMjcuNSAxMy43NSAyNy41em0yNy41IDExODYuNzNsLTEzLjc1IDI3LjUtMTMuNzUtMjcuNXoiLz48dGV4dCBmb250LWZhbWlseT0iQ29uc29sYXMsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjQwMCIgZm9udC1zaXplPSI4MyIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMTI2Ni4xMDUgMjEwOS4xMDUpIj5mdWxsSGVpZ2h0PC90ZXh0PjxwYXRoIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSI2Ljg3NSIgc3Ryb2tlLW1pdGVybGltaXQ9IjgiIGZpbGw9IiNGRkYiIGZpbGwtb3BhY2l0eT0iLjI1OSIgZD0iTTIwNzguNSA1MzMuNWg3NTV2NjY2aC03NTV6Ii8+PHBhdGggZD0iTTIxMDEuNDIgMTIzMC4wNmg3MDkuMzZ2Ni44OGgtNzA5LjM2em00LjU4IDE3LjE5bC0yNy41LTEzLjc1IDI3LjUtMTMuNzV6bTcwMC4xOS0yNy41bDI3LjUgMTMuNzUtMjcuNSAxMy43NXpNMjg3My45NCA1NTYuNDE3djYyMC41MTNoLTYuODhWNTU2LjQxN3pNMjg1Ni43NSA1NjFsMTMuNzUtMjcuNSAxMy43NSAyNy41em0yNy41IDYxMS4zNWwtMTMuNzUgMjcuNS0xMy43NS0yNy41eiIvPjx0ZXh0IGZvbnQtZmFtaWx5PSJDb25zb2xhcyxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNDAwIiBmb250LXNpemU9IjgzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMzQwLjk1IDEzMTApIj53aWR0aDwvdGV4dD48dGV4dCBmb250LWZhbWlseT0iQ29uc29sYXMsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjQwMCIgZm9udC1zaXplPSI4MyIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMTA2NS4zNTUgMTgyOS4zNTUpIj5oZWlnaHQ8L3RleHQ+PHBhdGggc3Ryb2tlPSIjQkZCRkJGIiBzdHJva2Utd2lkdGg9IjYuODc1IiBzdHJva2UtbWl0ZXJsaW1pdD0iOCIgZmlsbD0iI0Q5RDlEOSIgZD0iTTY2NC41IDQ1MS41aDUzM3Y3MzhoLTUzM3oiLz48cGF0aCBzdHJva2U9IiNCRkJGQkYiIHN0cm9rZS13aWR0aD0iNi44NzUiIHN0cm9rZS1taXRlcmxpbWl0PSI4IiBmaWxsPSIjRDlEOUQ5IiBkPSJNNzk1LjUgODU4LjVoMjU0djI1MmgtMjU0eiIvPjxwYXRoIGQ9Ik03MjEuNSA3NjRjMC0xMTQuNTk5IDkwLjg4Ni0yMDcuNSAyMDMtMjA3LjUgMTEyLjExIDAgMjAzIDkyLjkwMSAyMDMgMjA3LjVzLTkwLjg5IDIwNy41LTIwMyAyMDcuNWMtMTEyLjExNCAwLTIwMy05Mi45MDEtMjAzLTIwNy41eiIgZmlsbD0iI0YyRjJGMiIgZmlsbC1ydWxlPSJldmVub2RkIi8+PHBhdGggZD0iTTgzOC4zMTkgNzAxLjk0MmMwLTExLjkzNyA5LjQ2Ny0yMS42MTUgMjEuMTQ2LTIxLjYxNXMyMS4xNDYgOS42NzggMjEuMTQ2IDIxLjYxNWMwIDExLjkzNy05LjQ2NyAyMS42MTUtMjEuMTQ2IDIxLjYxNXMtMjEuMTQ2LTkuNjc4LTIxLjE0Ni0yMS42MTVtMTMwLjA3IDBjMC0xMS45MzcgOS40NjgtMjEuNjE1IDIxLjE0Ni0yMS42MTUgMTEuNjc1IDAgMjEuMTQ1IDkuNjc4IDIxLjE0NSAyMS42MTUgMCAxMS45MzctOS40NyAyMS42MTUtMjEuMTQ1IDIxLjYxNS0xMS42NzggMC0yMS4xNDYtOS42NzgtMjEuMTQ2LTIxLjYxNSIgc3Ryb2tlPSIjQkZCRkJGIiBzdHJva2Utd2lkdGg9IjYuODc1IiBzdHJva2UtbWl0ZXJsaW1pdD0iOCIgZmlsbD0iI0MzQzNDMyIgZmlsbC1ydWxlPSJldmVub2RkIi8+PHBhdGggZD0iTTgxNC40NzMgODU0LjQ5MmM3My4zNTEgNTEuNDkzIDE0Ni42MTcgNTEuNDkzIDIxOS43OTcgME03MjEuNSA3NjRjMC0xMTQuNTk5IDkwLjg4Ni0yMDcuNSAyMDMtMjA3LjUgMTEyLjExIDAgMjAzIDkyLjkwMSAyMDMgMjA3LjVzLTkwLjg5IDIwNy41LTIwMyAyMDcuNWMtMTEyLjExNCAwLTIwMy05Mi45MDEtMjAzLTIwNy41eiIgc3Ryb2tlPSIjQkZCRkJGIiBzdHJva2Utd2lkdGg9IjYuODc1IiBzdHJva2UtbWl0ZXJsaW1pdD0iOCIgZmlsbD0ibm9uZSIvPjx0ZXh0IGZvbnQtZmFtaWx5PSJDb25zb2xhcyxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNDAwIiBmb250LXNpemU9IjgzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDg4LjEzIDYwOCkiPig8L3RleHQ+PHRleHQgZm9udC1mYW1pbHk9IkNvbnNvbGFzLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI0MDAiIGZvbnQtc2l6ZT0iODMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIxMzMuMzkgNjA4KSI+eCx5PC90ZXh0Pjx0ZXh0IGZvbnQtZmFtaWx5PSJDb25zb2xhcyxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNDAwIiBmb250LXNpemU9IjgzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMjY5LjE3IDYwOCkiPik8L3RleHQ+PHBhdGggZD0iTTIwNjEgNTM0YzAtOS45NDEgOC41MS0xOCAxOS0xOHMxOSA4LjA1OSAxOSAxOC04LjUxIDE4LTE5IDE4LTE5LTguMDU5LTE5LTE4eiIgZmlsbC1ydWxlPSJldmVub2RkIi8+PHBhdGggZD0iTTExOTcuNSAxMTg5LjVsMjExNCA1MDMuNDYiIHN0cm9rZT0iI0JGQkZCRiIgc3Ryb2tlLXdpZHRoPSIxLjE0NiIgc3Ryb2tlLW1pdGVybGltaXQ9IjgiIHN0cm9rZS1kYXNoYXJyYXk9IjQuNTgzIDMuNDM4IiBmaWxsPSJub25lIi8+PHRleHQgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI0MDAiIGZvbnQtc2l6ZT0iODMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDc3NS4xMSA0MDkpIj5PcmlnaW5hbDwvdGV4dD48dGV4dCBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjQwMCIgZm9udC1zaXplPSI4MyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjU0Ny42OSA0MDYpIj5TY2FsZWQ8L3RleHQ+PHBhdGggZD0iTTEyNDMuOTQgNDc0LjQxN3Y2OTIuNDMzaC02Ljg4VjQ3NC40MTd6TTEyMjYuNzUgNDc5bDEzLjc1LTI3LjUgMTMuNzUgMjcuNXptMjcuNSA2ODMuMjdsLTEzLjc1IDI3LjUtMTMuNzUtMjcuNXoiLz48dGV4dCBmb250LWZhbWlseT0iQ29uc29sYXMsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjQwMCIgZm9udC1zaXplPSI4MyIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMzQwLjQwNSA5MzQuNDA1KSI+cGFnZS5oZWlnaHQ8L3RleHQ+PHBhdGggZD0iTTY4Ny40MTcgMTIyNC4wNmg0ODYuNzYzdjYuODhINjg3LjQxN3ptNC41ODMgMTcuMTlsLTI3LjUtMTMuNzUgMjcuNS0xMy43NXptNDc3LjU5LTI3LjVsMjcuNSAxMy43NS0yNy41IDEzLjc1eiIvPjx0ZXh0IGZvbnQtZmFtaWx5PSJDb25zb2xhcyxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNDAwIiBmb250LXNpemU9IjgzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MDEuNDUxIDEyOTYpIj5wYWdlLndpZHRoPC90ZXh0PjwvZz48L3N2Zz4=)
   ///
   /// The following code extract the area of (20,30)-(120,130) from the page image rendered at 1000x1500 pixels:
   /// ```dart
@@ -345,7 +299,8 @@ abstract class PdfPage {
     double? fullWidth,
     double? fullHeight,
     Color? backgroundColor,
-    PdfAnnotationRenderingMode annotationRenderingMode = PdfAnnotationRenderingMode.annotationAndForms,
+    PdfAnnotationRenderingMode annotationRenderingMode =
+        PdfAnnotationRenderingMode.annotationAndForms,
     PdfPageRenderCancellationToken? cancellationToken,
   });
 
@@ -356,20 +311,25 @@ abstract class PdfPage {
   Future<PdfPageText> loadText();
 
   /// Load links.
-  ///
-  /// if [compact] is true, it tries to reduce memory usage by compacting the link data.
-  /// See [PdfLink.compact] for more info.
-  Future<List<PdfLink>> loadLinks({bool compact = false});
+  Future<List<PdfLink>> loadLinks();
 }
 
-/// Page rotation.
-enum PdfPageRotation { none, clockwise90, clockwise180, clockwise270 }
+enum PdfPageRotation {
+  none,
+  clockwise90,
+  clockwise180,
+  clockwise270,
+}
 
 /// Annotation rendering mode.
 /// - [none]: Do not render annotations.
 /// - [annotation]: Render annotations.
 /// - [annotationAndForms]: Render annotations and forms.
-enum PdfAnnotationRenderingMode { none, annotation, annotationAndForms }
+enum PdfAnnotationRenderingMode {
+  none,
+  annotation,
+  annotationAndForms,
+}
 
 /// Token to try to cancel the rendering process.
 abstract class PdfPageRenderCancellationToken {
@@ -425,7 +385,8 @@ abstract class PdfImage {
   /// Create [ui.Image] from the rendered image.
   Future<ui.Image> createImage() {
     final comp = Completer<ui.Image>();
-    ui.decodeImageFromPixels(pixels, width, height, format, (image) => comp.complete(image));
+    ui.decodeImageFromPixels(
+        pixels, width, height, format, (image) => comp.complete(image));
     return comp.future;
   }
 }
@@ -450,7 +411,8 @@ abstract class PdfPageText {
   ///
   /// If the specified text index is out of range, it returns -1.
   int getFragmentIndexForTextIndex(int textIndex) {
-    final index = fragments.lowerBound(_PdfPageTextFragmentForSearch(textIndex), (a, b) => a.index - b.index);
+    final index = fragments.lowerBound(
+        _PdfPageTextFragmentForSearch(textIndex), (a, b) => a.index - b.index);
     if (index > fragments.length) {
       return -1; // range error
     }
@@ -473,7 +435,10 @@ abstract class PdfPageText {
   ///
   /// Just work like [Pattern.allMatches] but it returns stream of [PdfTextRangeWithFragments].
   /// [caseInsensitive] is used to specify case-insensitive search only if [pattern] is [String].
-  Stream<PdfTextRangeWithFragments> allMatches(Pattern pattern, {bool caseInsensitive = true}) async* {
+  Stream<PdfTextRangeWithFragments> allMatches(
+    Pattern pattern, {
+    bool caseInsensitive = true,
+  }) async* {
     final String text;
     if (pattern is RegExp) {
       caseInsensitive = pattern.isCaseSensitive;
@@ -487,7 +452,8 @@ abstract class PdfPageText {
     final matches = pattern.allMatches(text);
     for (final match in matches) {
       if (match.start == match.end) continue;
-      final m = PdfTextRangeWithFragments.fromTextRange(this, match.start, match.end);
+      final m =
+          PdfTextRangeWithFragments.fromTextRange(this, match.start, match.end);
       if (m != null) {
         yield m;
       }
@@ -535,11 +501,18 @@ abstract class PdfPageTextFragment {
     PdfRect bounds,
     String text, {
     List<PdfRect>? charRects,
-  }) => _PdfPageTextFragment(index, length, bounds, text, charRects: charRects);
+  }) =>
+      _PdfPageTextFragment(index, length, bounds, text, charRects: charRects);
 }
 
 class _PdfPageTextFragment extends PdfPageTextFragment {
-  _PdfPageTextFragment(this.index, this.length, this.bounds, this.text, {this.charRects});
+  _PdfPageTextFragment(
+    this.index,
+    this.length,
+    this.bounds,
+    this.text, {
+    this.charRects,
+  });
 
   @override
   final int index;
@@ -573,7 +546,10 @@ class _PdfPageTextFragmentForSearch extends PdfPageTextFragment {
 /// The text range is used to describe text selection in a page but it does not indicate the actual page text;
 /// [PdfTextRanges] contains multiple [PdfTextRange]s and the actual [PdfPageText] the ranges are associated with.
 class PdfTextRange {
-  const PdfTextRange({required this.start, required this.end});
+  const PdfTextRange({
+    required this.start,
+    required this.end,
+  });
 
   /// Text start index in [PdfPageText.fullText].
   final int start;
@@ -581,7 +557,14 @@ class PdfTextRange {
   /// Text end index in [PdfPageText.fullText].
   final int end;
 
-  PdfTextRange copyWith({int? start, int? end}) => PdfTextRange(start: start ?? this.start, end: end ?? this.end);
+  PdfTextRange copyWith({
+    int? start,
+    int? end,
+  }) =>
+      PdfTextRange(
+        start: start ?? this.start,
+        end: end ?? this.end,
+      );
 
   @override
   int get hashCode => start ^ end;
@@ -604,7 +587,10 @@ class PdfTextRange {
 /// Text ranges in a PDF page typically used to describe text selection.
 class PdfTextRanges {
   /// Create a [PdfTextRanges].
-  const PdfTextRanges({required this.pageText, required this.ranges});
+  const PdfTextRanges({
+    required this.pageText,
+    required this.ranges,
+  });
 
   /// Create a [PdfTextRanges] with empty ranges.
   PdfTextRanges.createEmpty(this.pageText) : ranges = <PdfTextRange>[];
@@ -619,16 +605,19 @@ class PdfTextRanges {
   bool get isEmpty => ranges.isEmpty;
 
   /// Determine whether the text ranges are *NOT* empty.
-  bool get isNotEmpty => ranges.isNotEmpty;
+  bool get isNotEmpty => !isEmpty;
 
   /// Page number of the text ranges.
   int get pageNumber => pageText.pageNumber;
 
   /// Bounds of the text ranges.
-  PdfRect get bounds => ranges.map((r) => r.toTextRangeWithFragments(pageText)!.bounds).boundingRect();
+  PdfRect get bounds => ranges
+      .map((r) => r.toTextRangeWithFragments(pageText)!.bounds)
+      .boundingRect();
 
   /// The composed text of the text ranges.
-  String get text => ranges.map((r) => pageText.fullText.substring(r.start, r.end)).join();
+  String get text =>
+      ranges.map((r) => pageText.fullText.substring(r.start, r.end)).join();
 }
 
 /// For backward compatibility; [PdfTextRangeWithFragments] is previously named [PdfTextMatch].
@@ -636,7 +625,13 @@ typedef PdfTextMatch = PdfTextRangeWithFragments;
 
 /// Text range (start/end index) in PDF page and it's associated text and bounding rectangle.
 class PdfTextRangeWithFragments {
-  PdfTextRangeWithFragments(this.pageNumber, this.fragments, this.start, this.end, this.bounds);
+  PdfTextRangeWithFragments(
+    this.pageNumber,
+    this.fragments,
+    this.start,
+    this.end,
+    this.bounds,
+  );
 
   /// Page number of the page.
   final int pageNumber;
@@ -669,7 +664,8 @@ class PdfTextRangeWithFragments {
   /// ```
   ///
   /// To paint text highlights on PDF pages, see [PdfViewerParams.pagePaintCallbacks] and [PdfViewerPagePaintCallback].
-  static PdfTextRangeWithFragments? fromTextRange(PdfPageText pageText, int start, int end) {
+  static PdfTextRangeWithFragments? fromTextRange(
+      PdfPageText pageText, int start, int end) {
     if (start >= end) {
       return null;
     }
@@ -706,12 +702,16 @@ class PdfTextRangeWithFragments {
       }
     }
 
-    var bounds = sf.charRects != null ? sf.charRects!.skip(start - sf.index).boundingRect() : sf.bounds;
+    var bounds = sf.charRects != null
+        ? sf.charRects!.skip(start - sf.index).boundingRect()
+        : sf.bounds;
     for (int i = s + 1; i < l; i++) {
       bounds = bounds.merge(pageText.fragments[i].bounds);
     }
     final lf = pageText.fragments[l];
-    bounds = bounds.merge(lf.charRects != null ? lf.charRects!.take(end - lf.index).boundingRect() : lf.bounds);
+    bounds = bounds.merge(lf.charRects != null
+        ? lf.charRects!.take(end - lf.index).boundingRect()
+        : lf.bounds);
 
     return PdfTextRangeWithFragments(
       pageText.pageNumber,
@@ -780,22 +780,18 @@ class PdfRect {
     );
   }
 
-  /// Determine whether the rectangle contains the specified point (in the PDF page coordinates).
-  bool contains(double x, double y) => x >= left && x <= right && y >= bottom && y <= top;
-
-  /// Determine whether the rectangle contains the specified point (in the PDF page coordinates).
-  bool containsOffset(Offset offset) => contains(offset.dx, offset.dy);
-
   /// Empty rectangle.
   static const empty = PdfRect(0, 0, 0, 0);
 
-  /// Convert to [Rect] in Flutter coordinate.
-  /// [page] is the page to convert the rectangle.
-  /// [scaledPageSize] is the scaled page size to scale the rectangle. If not specified, [PdfPage.size] is used.
-  /// [rotation] is the rotation of the page. If not specified, [PdfPage.rotation] is used.
-  Rect toRect({required PdfPage page, Size? scaledPageSize, int? rotation}) {
+  /// Convert to [Rect] in Flutter coordinate. [height] specifies the height of the page (original size).
+  /// [scale] is used to scale the rectangle.
+  Rect toRect({
+    required PdfPage page,
+    Size? scaledTo,
+    int? rotation,
+  }) {
     final rotated = rotate(rotation ?? page.rotation.index, page);
-    final scale = scaledPageSize == null ? 1.0 : scaledPageSize.height / page.height;
+    final scale = scaledTo == null ? 1.0 : scaledTo.height / page.height;
     return Rect.fromLTRB(
       rotated.left * scale,
       (page.height - rotated.top) * scale,
@@ -805,8 +801,12 @@ class PdfRect {
   }
 
   ///  Convert to [Rect] in Flutter coordinate using [pageRect] as the page's bounding rectangle.
-  Rect toRectInPageRect({required PdfPage page, required Rect pageRect}) =>
-      toRect(page: page, scaledPageSize: pageRect.size).translate(pageRect.left, pageRect.top);
+  Rect toRectInPageRect({
+    required PdfPage page,
+    required Rect pageRect,
+  }) =>
+      toRect(page: page, scaledTo: pageRect.size)
+          .translate(pageRect.left, pageRect.top);
 
   PdfRect rotate(int rotation, PdfPage page) {
     final swap = (page.rotation.index & 1) == 1;
@@ -816,27 +816,45 @@ class PdfRect {
       case 0:
         return this;
       case 1:
-        return PdfRect(bottom, width - left, top, width - right);
+        return PdfRect(
+          bottom,
+          width - left,
+          top,
+          width - right,
+        );
       case 2:
-        return PdfRect(width - right, height - bottom, width - left, height - top);
+        return PdfRect(
+          width - right,
+          height - bottom,
+          width - left,
+          height - top,
+        );
       case 3:
-        return PdfRect(height - top, right, height - bottom, left);
+        return PdfRect(
+          height - top,
+          right,
+          height - bottom,
+          left,
+        );
       default:
         throw ArgumentError.value(rotate, 'rotate');
     }
   }
 
-  PdfRect inflate(double dx, double dy) => PdfRect(left - dx, top + dy, right + dx, bottom - dy);
-
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is PdfRect && other.left == left && other.top == top && other.right == right && other.bottom == bottom;
+    return other is PdfRect &&
+        other.left == left &&
+        other.top == top &&
+        other.right == right &&
+        other.bottom == bottom;
   }
 
   @override
-  int get hashCode => left.hashCode ^ top.hashCode ^ right.hashCode ^ bottom.hashCode;
+  int get hashCode =>
+      left.hashCode ^ top.hashCode ^ right.hashCode ^ bottom.hashCode;
 
   @override
   String toString() {
@@ -847,31 +865,7 @@ class PdfRect {
 /// Extension methods for List of [PdfRect].
 extension PdfRectsExt on Iterable<PdfRect> {
   /// Merge all rectangles to calculate bounding rectangle.
-  PdfRect boundingRect() {
-    var left = double.infinity;
-    var top = double.negativeInfinity;
-    var right = double.negativeInfinity;
-    var bottom = double.infinity;
-    for (final r in this) {
-      if (r.left < left) {
-        left = r.left;
-      }
-      if (r.top > top) {
-        top = r.top;
-      }
-      if (r.right > right) {
-        right = r.right;
-      }
-      if (r.bottom < bottom) {
-        bottom = r.bottom;
-      }
-    }
-    if (left == double.infinity) {
-      // no rects
-      throw StateError('No rects');
-    }
-    return PdfRect(left, top, right, bottom);
-  }
+  PdfRect boundingRect() => reduce((a, b) => a.merge(b));
 }
 
 /// PDF [Explicit Destination](https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf#page=374) the page and inner-page location to jump to.
@@ -889,37 +883,21 @@ class PdfDest {
   final List<double?>? params;
 
   @override
-  String toString() => 'PdfDest{pageNumber: $pageNumber, command: $command, params: $params}';
-
-  /// Compact the destination.
-  ///
-  /// The method is used to compact the destination to reduce memory usage.
-  /// [params] is typically growable and also modifiable. The method ensures that [params] is unmodifiable.
-  PdfDest compact() {
-    return params == null ? this : PdfDest(pageNumber, command, List.unmodifiable(params!));
-  }
+  String toString() =>
+      'PdfDest{pageNumber: $pageNumber, command: $command, params: $params}';
 }
 
 /// [PDF 32000-1:2008, 12.3.2.2 Explicit Destinations, Table 151](https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf#page=374)
 enum PdfDestCommand {
-  unknown('unknown'),
-  xyz('xyz'),
-  fit('fit'),
-  fitH('fith'),
-  fitV('fitv'),
-  fitR('fitr'),
-  fitB('fitb'),
-  fitBH('fitbh'),
-  fitBV('fitbv');
-
-  const PdfDestCommand(this.name);
-
-  final String name;
-
-  factory PdfDestCommand.parse(String name) {
-    final nameLow = name.toLowerCase();
-    return PdfDestCommand.values.firstWhere((e) => e.name == nameLow, orElse: () => PdfDestCommand.unknown);
-  }
+  unknown,
+  xyz,
+  fit,
+  fitH,
+  fitV,
+  fitR,
+  fitB,
+  fitBH,
+  fitBV,
 }
 
 /// Link in PDF page.
@@ -928,7 +906,11 @@ enum PdfDestCommand {
 /// See [PdfPage.loadLinks].
 @immutable
 class PdfLink {
-  const PdfLink(this.rects, {this.url, this.dest});
+  const PdfLink(
+    this.rects, {
+    this.url,
+    this.dest,
+  });
 
   /// Link URL.
   final Uri? url;
@@ -940,15 +922,6 @@ class PdfLink {
 
   /// Link location.
   final List<PdfRect> rects;
-
-  /// Compact the link.
-  ///
-  /// The method is used to compact the link to reduce memory usage.
-  /// [rects] is typically growable and also modifiable. The method ensures that [rects] is unmodifiable.
-  /// [dest] is also compacted by calling [PdfDest.compact].
-  PdfLink compact() {
-    return PdfLink(List.unmodifiable(rects), url: url, dest: dest?.compact());
-  }
 }
 
 /// Outline (a.k.a. Bookmark) node in PDF document.
@@ -956,7 +929,11 @@ class PdfLink {
 /// See [PdfDocument.loadOutline].
 @immutable
 class PdfOutlineNode {
-  const PdfOutlineNode({required this.title, required this.dest, required this.children});
+  const PdfOutlineNode({
+    required this.title,
+    required this.dest,
+    required this.children,
+  });
 
   /// Outline node title.
   final String title;

@@ -830,16 +830,16 @@ class pdfium {
       _FPDF_VIEWERREF_GetPrintPageRangeElementPtr.asFunction<
           int Function(FPDF_PAGERANGE, int)>();
 
-  _FPDF_DUPLEXTYPE_ FPDF_VIEWERREF_GetDuplex(
+  int FPDF_VIEWERREF_GetDuplex(
     FPDF_DOCUMENT document,
   ) {
-    return _FPDF_DUPLEXTYPE_.fromValue(_FPDF_VIEWERREF_GetDuplex(
+    return _FPDF_VIEWERREF_GetDuplex(
       document,
-    ));
+    );
   }
 
   late final _FPDF_VIEWERREF_GetDuplexPtr =
-      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(FPDF_DOCUMENT)>>(
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(FPDF_DOCUMENT)>>(
           'FPDF_VIEWERREF_GetDuplex');
   late final _FPDF_VIEWERREF_GetDuplex =
       _FPDF_VIEWERREF_GetDuplexPtr.asFunction<int Function(FPDF_DOCUMENT)>();
@@ -988,796 +988,6 @@ class pdfium {
       _FPDF_GetXFAPacketContentPtr.asFunction<
           int Function(FPDF_DOCUMENT, int, ffi.Pointer<ffi.Void>, int,
               ffi.Pointer<ffi.UnsignedLong>)>();
-
-  FPDF_FORMHANDLE FPDFDOC_InitFormFillEnvironment(
-    FPDF_DOCUMENT document,
-    ffi.Pointer<FPDF_FORMFILLINFO> formInfo,
-  ) {
-    return _FPDFDOC_InitFormFillEnvironment(
-      document,
-      formInfo,
-    );
-  }
-
-  late final _FPDFDOC_InitFormFillEnvironmentPtr = _lookup<
-          ffi.NativeFunction<
-              FPDF_FORMHANDLE Function(
-                  FPDF_DOCUMENT, ffi.Pointer<FPDF_FORMFILLINFO>)>>(
-      'FPDFDOC_InitFormFillEnvironment');
-  late final _FPDFDOC_InitFormFillEnvironment =
-      _FPDFDOC_InitFormFillEnvironmentPtr.asFunction<
-          FPDF_FORMHANDLE Function(
-              FPDF_DOCUMENT, ffi.Pointer<FPDF_FORMFILLINFO>)>();
-
-  void FPDFDOC_ExitFormFillEnvironment(
-    FPDF_FORMHANDLE hHandle,
-  ) {
-    return _FPDFDOC_ExitFormFillEnvironment(
-      hHandle,
-    );
-  }
-
-  late final _FPDFDOC_ExitFormFillEnvironmentPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE)>>(
-          'FPDFDOC_ExitFormFillEnvironment');
-  late final _FPDFDOC_ExitFormFillEnvironment =
-      _FPDFDOC_ExitFormFillEnvironmentPtr.asFunction<
-          void Function(FPDF_FORMHANDLE)>();
-
-  void FORM_OnAfterLoadPage(
-    FPDF_PAGE page,
-    FPDF_FORMHANDLE hHandle,
-  ) {
-    return _FORM_OnAfterLoadPage(
-      page,
-      hHandle,
-    );
-  }
-
-  late final _FORM_OnAfterLoadPagePtr = _lookup<
-          ffi.NativeFunction<ffi.Void Function(FPDF_PAGE, FPDF_FORMHANDLE)>>(
-      'FORM_OnAfterLoadPage');
-  late final _FORM_OnAfterLoadPage = _FORM_OnAfterLoadPagePtr.asFunction<
-      void Function(FPDF_PAGE, FPDF_FORMHANDLE)>();
-
-  void FORM_OnBeforeClosePage(
-    FPDF_PAGE page,
-    FPDF_FORMHANDLE hHandle,
-  ) {
-    return _FORM_OnBeforeClosePage(
-      page,
-      hHandle,
-    );
-  }
-
-  late final _FORM_OnBeforeClosePagePtr = _lookup<
-          ffi.NativeFunction<ffi.Void Function(FPDF_PAGE, FPDF_FORMHANDLE)>>(
-      'FORM_OnBeforeClosePage');
-  late final _FORM_OnBeforeClosePage = _FORM_OnBeforeClosePagePtr.asFunction<
-      void Function(FPDF_PAGE, FPDF_FORMHANDLE)>();
-
-  void FORM_DoDocumentJSAction(
-    FPDF_FORMHANDLE hHandle,
-  ) {
-    return _FORM_DoDocumentJSAction(
-      hHandle,
-    );
-  }
-
-  late final _FORM_DoDocumentJSActionPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE)>>(
-          'FORM_DoDocumentJSAction');
-  late final _FORM_DoDocumentJSAction =
-      _FORM_DoDocumentJSActionPtr.asFunction<void Function(FPDF_FORMHANDLE)>();
-
-  void FORM_DoDocumentOpenAction(
-    FPDF_FORMHANDLE hHandle,
-  ) {
-    return _FORM_DoDocumentOpenAction(
-      hHandle,
-    );
-  }
-
-  late final _FORM_DoDocumentOpenActionPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE)>>(
-          'FORM_DoDocumentOpenAction');
-  late final _FORM_DoDocumentOpenAction = _FORM_DoDocumentOpenActionPtr
-      .asFunction<void Function(FPDF_FORMHANDLE)>();
-
-  void FORM_DoDocumentAAction(
-    FPDF_FORMHANDLE hHandle,
-    int aaType,
-  ) {
-    return _FORM_DoDocumentAAction(
-      hHandle,
-      aaType,
-    );
-  }
-
-  late final _FORM_DoDocumentAActionPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE, ffi.Int)>>(
-          'FORM_DoDocumentAAction');
-  late final _FORM_DoDocumentAAction = _FORM_DoDocumentAActionPtr.asFunction<
-      void Function(FPDF_FORMHANDLE, int)>();
-
-  void FORM_DoPageAAction(
-    FPDF_PAGE page,
-    FPDF_FORMHANDLE hHandle,
-    int aaType,
-  ) {
-    return _FORM_DoPageAAction(
-      page,
-      hHandle,
-      aaType,
-    );
-  }
-
-  late final _FORM_DoPageAActionPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              FPDF_PAGE, FPDF_FORMHANDLE, ffi.Int)>>('FORM_DoPageAAction');
-  late final _FORM_DoPageAAction = _FORM_DoPageAActionPtr.asFunction<
-      void Function(FPDF_PAGE, FPDF_FORMHANDLE, int)>();
-
-  int FORM_OnMouseMove(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int modifier,
-    double page_x,
-    double page_y,
-  ) {
-    return _FORM_OnMouseMove(
-      hHandle,
-      page,
-      modifier,
-      page_x,
-      page_y,
-    );
-  }
-
-  late final _FORM_OnMouseMovePtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
-              ffi.Double)>>('FORM_OnMouseMove');
-  late final _FORM_OnMouseMove = _FORM_OnMouseMovePtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
-
-  int FORM_OnMouseWheel(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int modifier,
-    ffi.Pointer<FS_POINTF> page_coord,
-    int delta_x,
-    int delta_y,
-  ) {
-    return _FORM_OnMouseWheel(
-      hHandle,
-      page,
-      modifier,
-      page_coord,
-      delta_x,
-      delta_y,
-    );
-  }
-
-  late final _FORM_OnMouseWheelPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int,
-              ffi.Pointer<FS_POINTF>, ffi.Int, ffi.Int)>>('FORM_OnMouseWheel');
-  late final _FORM_OnMouseWheel = _FORM_OnMouseWheelPtr.asFunction<
-      int Function(
-          FPDF_FORMHANDLE, FPDF_PAGE, int, ffi.Pointer<FS_POINTF>, int, int)>();
-
-  int FORM_OnFocus(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int modifier,
-    double page_x,
-    double page_y,
-  ) {
-    return _FORM_OnFocus(
-      hHandle,
-      page,
-      modifier,
-      page_x,
-      page_y,
-    );
-  }
-
-  late final _FORM_OnFocusPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
-              ffi.Double)>>('FORM_OnFocus');
-  late final _FORM_OnFocus = _FORM_OnFocusPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
-
-  int FORM_OnLButtonDown(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int modifier,
-    double page_x,
-    double page_y,
-  ) {
-    return _FORM_OnLButtonDown(
-      hHandle,
-      page,
-      modifier,
-      page_x,
-      page_y,
-    );
-  }
-
-  late final _FORM_OnLButtonDownPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
-              ffi.Double)>>('FORM_OnLButtonDown');
-  late final _FORM_OnLButtonDown = _FORM_OnLButtonDownPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
-
-  int FORM_OnRButtonDown(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int modifier,
-    double page_x,
-    double page_y,
-  ) {
-    return _FORM_OnRButtonDown(
-      hHandle,
-      page,
-      modifier,
-      page_x,
-      page_y,
-    );
-  }
-
-  late final _FORM_OnRButtonDownPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
-              ffi.Double)>>('FORM_OnRButtonDown');
-  late final _FORM_OnRButtonDown = _FORM_OnRButtonDownPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
-
-  int FORM_OnLButtonUp(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int modifier,
-    double page_x,
-    double page_y,
-  ) {
-    return _FORM_OnLButtonUp(
-      hHandle,
-      page,
-      modifier,
-      page_x,
-      page_y,
-    );
-  }
-
-  late final _FORM_OnLButtonUpPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
-              ffi.Double)>>('FORM_OnLButtonUp');
-  late final _FORM_OnLButtonUp = _FORM_OnLButtonUpPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
-
-  int FORM_OnRButtonUp(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int modifier,
-    double page_x,
-    double page_y,
-  ) {
-    return _FORM_OnRButtonUp(
-      hHandle,
-      page,
-      modifier,
-      page_x,
-      page_y,
-    );
-  }
-
-  late final _FORM_OnRButtonUpPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
-              ffi.Double)>>('FORM_OnRButtonUp');
-  late final _FORM_OnRButtonUp = _FORM_OnRButtonUpPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
-
-  int FORM_OnLButtonDoubleClick(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int modifier,
-    double page_x,
-    double page_y,
-  ) {
-    return _FORM_OnLButtonDoubleClick(
-      hHandle,
-      page,
-      modifier,
-      page_x,
-      page_y,
-    );
-  }
-
-  late final _FORM_OnLButtonDoubleClickPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
-              ffi.Double)>>('FORM_OnLButtonDoubleClick');
-  late final _FORM_OnLButtonDoubleClick =
-      _FORM_OnLButtonDoubleClickPtr.asFunction<
-          int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
-
-  int FORM_OnKeyDown(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int nKeyCode,
-    int modifier,
-  ) {
-    return _FORM_OnKeyDown(
-      hHandle,
-      page,
-      nKeyCode,
-      modifier,
-    );
-  }
-
-  late final _FORM_OnKeyDownPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(
-              FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Int)>>('FORM_OnKeyDown');
-  late final _FORM_OnKeyDown = _FORM_OnKeyDownPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, int)>();
-
-  int FORM_OnKeyUp(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int nKeyCode,
-    int modifier,
-  ) {
-    return _FORM_OnKeyUp(
-      hHandle,
-      page,
-      nKeyCode,
-      modifier,
-    );
-  }
-
-  late final _FORM_OnKeyUpPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(
-              FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Int)>>('FORM_OnKeyUp');
-  late final _FORM_OnKeyUp = _FORM_OnKeyUpPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, int)>();
-
-  int FORM_OnChar(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int nChar,
-    int modifier,
-  ) {
-    return _FORM_OnChar(
-      hHandle,
-      page,
-      nChar,
-      modifier,
-    );
-  }
-
-  late final _FORM_OnCharPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(
-              FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Int)>>('FORM_OnChar');
-  late final _FORM_OnChar = _FORM_OnCharPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, int)>();
-
-  int FORM_GetFocusedText(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    ffi.Pointer<ffi.Void> buffer,
-    int buflen,
-  ) {
-    return _FORM_GetFocusedText(
-      hHandle,
-      page,
-      buffer,
-      buflen,
-    );
-  }
-
-  late final _FORM_GetFocusedTextPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.UnsignedLong Function(FPDF_FORMHANDLE, FPDF_PAGE,
-              ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>>('FORM_GetFocusedText');
-  late final _FORM_GetFocusedText = _FORM_GetFocusedTextPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Pointer<ffi.Void>, int)>();
-
-  int FORM_GetSelectedText(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    ffi.Pointer<ffi.Void> buffer,
-    int buflen,
-  ) {
-    return _FORM_GetSelectedText(
-      hHandle,
-      page,
-      buffer,
-      buflen,
-    );
-  }
-
-  late final _FORM_GetSelectedTextPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.UnsignedLong Function(
-              FPDF_FORMHANDLE,
-              FPDF_PAGE,
-              ffi.Pointer<ffi.Void>,
-              ffi.UnsignedLong)>>('FORM_GetSelectedText');
-  late final _FORM_GetSelectedText = _FORM_GetSelectedTextPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Pointer<ffi.Void>, int)>();
-
-  void FORM_ReplaceAndKeepSelection(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    FPDF_WIDESTRING wsText,
-  ) {
-    return _FORM_ReplaceAndKeepSelection(
-      hHandle,
-      page,
-      wsText,
-    );
-  }
-
-  late final _FORM_ReplaceAndKeepSelectionPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(FPDF_FORMHANDLE, FPDF_PAGE,
-              FPDF_WIDESTRING)>>('FORM_ReplaceAndKeepSelection');
-  late final _FORM_ReplaceAndKeepSelection = _FORM_ReplaceAndKeepSelectionPtr
-      .asFunction<void Function(FPDF_FORMHANDLE, FPDF_PAGE, FPDF_WIDESTRING)>();
-
-  void FORM_ReplaceSelection(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    FPDF_WIDESTRING wsText,
-  ) {
-    return _FORM_ReplaceSelection(
-      hHandle,
-      page,
-      wsText,
-    );
-  }
-
-  late final _FORM_ReplaceSelectionPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(FPDF_FORMHANDLE, FPDF_PAGE,
-              FPDF_WIDESTRING)>>('FORM_ReplaceSelection');
-  late final _FORM_ReplaceSelection = _FORM_ReplaceSelectionPtr.asFunction<
-      void Function(FPDF_FORMHANDLE, FPDF_PAGE, FPDF_WIDESTRING)>();
-
-  int FORM_SelectAllText(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-  ) {
-    return _FORM_SelectAllText(
-      hHandle,
-      page,
-    );
-  }
-
-  late final _FORM_SelectAllTextPtr = _lookup<
-          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
-      'FORM_SelectAllText');
-  late final _FORM_SelectAllText = _FORM_SelectAllTextPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
-
-  int FORM_CanUndo(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-  ) {
-    return _FORM_CanUndo(
-      hHandle,
-      page,
-    );
-  }
-
-  late final _FORM_CanUndoPtr = _lookup<
-          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
-      'FORM_CanUndo');
-  late final _FORM_CanUndo =
-      _FORM_CanUndoPtr.asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
-
-  int FORM_CanRedo(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-  ) {
-    return _FORM_CanRedo(
-      hHandle,
-      page,
-    );
-  }
-
-  late final _FORM_CanRedoPtr = _lookup<
-          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
-      'FORM_CanRedo');
-  late final _FORM_CanRedo =
-      _FORM_CanRedoPtr.asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
-
-  int FORM_Undo(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-  ) {
-    return _FORM_Undo(
-      hHandle,
-      page,
-    );
-  }
-
-  late final _FORM_UndoPtr = _lookup<
-          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
-      'FORM_Undo');
-  late final _FORM_Undo =
-      _FORM_UndoPtr.asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
-
-  int FORM_Redo(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-  ) {
-    return _FORM_Redo(
-      hHandle,
-      page,
-    );
-  }
-
-  late final _FORM_RedoPtr = _lookup<
-          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
-      'FORM_Redo');
-  late final _FORM_Redo =
-      _FORM_RedoPtr.asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
-
-  int FORM_ForceToKillFocus(
-    FPDF_FORMHANDLE hHandle,
-  ) {
-    return _FORM_ForceToKillFocus(
-      hHandle,
-    );
-  }
-
-  late final _FORM_ForceToKillFocusPtr =
-      _lookup<ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE)>>(
-          'FORM_ForceToKillFocus');
-  late final _FORM_ForceToKillFocus =
-      _FORM_ForceToKillFocusPtr.asFunction<int Function(FPDF_FORMHANDLE)>();
-
-  int FORM_GetFocusedAnnot(
-    FPDF_FORMHANDLE handle,
-    ffi.Pointer<ffi.Int> page_index,
-    ffi.Pointer<FPDF_ANNOTATION> annot,
-  ) {
-    return _FORM_GetFocusedAnnot(
-      handle,
-      page_index,
-      annot,
-    );
-  }
-
-  late final _FORM_GetFocusedAnnotPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, ffi.Pointer<ffi.Int>,
-              ffi.Pointer<FPDF_ANNOTATION>)>>('FORM_GetFocusedAnnot');
-  late final _FORM_GetFocusedAnnot = _FORM_GetFocusedAnnotPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, ffi.Pointer<ffi.Int>,
-          ffi.Pointer<FPDF_ANNOTATION>)>();
-
-  int FORM_SetFocusedAnnot(
-    FPDF_FORMHANDLE handle,
-    FPDF_ANNOTATION annot,
-  ) {
-    return _FORM_SetFocusedAnnot(
-      handle,
-      annot,
-    );
-  }
-
-  late final _FORM_SetFocusedAnnotPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(
-              FPDF_FORMHANDLE, FPDF_ANNOTATION)>>('FORM_SetFocusedAnnot');
-  late final _FORM_SetFocusedAnnot = _FORM_SetFocusedAnnotPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_ANNOTATION)>();
-
-  int FPDFPage_HasFormFieldAtPoint(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    double page_x,
-    double page_y,
-  ) {
-    return _FPDFPage_HasFormFieldAtPoint(
-      hHandle,
-      page,
-      page_x,
-      page_y,
-    );
-  }
-
-  late final _FPDFPage_HasFormFieldAtPointPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Int Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Double,
-              ffi.Double)>>('FPDFPage_HasFormFieldAtPoint');
-  late final _FPDFPage_HasFormFieldAtPoint = _FPDFPage_HasFormFieldAtPointPtr
-      .asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE, double, double)>();
-
-  int FPDFPage_FormFieldZOrderAtPoint(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    double page_x,
-    double page_y,
-  ) {
-    return _FPDFPage_FormFieldZOrderAtPoint(
-      hHandle,
-      page,
-      page_x,
-      page_y,
-    );
-  }
-
-  late final _FPDFPage_FormFieldZOrderAtPointPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Int Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Double,
-              ffi.Double)>>('FPDFPage_FormFieldZOrderAtPoint');
-  late final _FPDFPage_FormFieldZOrderAtPoint =
-      _FPDFPage_FormFieldZOrderAtPointPtr.asFunction<
-          int Function(FPDF_FORMHANDLE, FPDF_PAGE, double, double)>();
-
-  void FPDF_SetFormFieldHighlightColor(
-    FPDF_FORMHANDLE hHandle,
-    int fieldType,
-    int color,
-  ) {
-    return _FPDF_SetFormFieldHighlightColor(
-      hHandle,
-      fieldType,
-      color,
-    );
-  }
-
-  late final _FPDF_SetFormFieldHighlightColorPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(FPDF_FORMHANDLE, ffi.Int,
-              ffi.UnsignedLong)>>('FPDF_SetFormFieldHighlightColor');
-  late final _FPDF_SetFormFieldHighlightColor =
-      _FPDF_SetFormFieldHighlightColorPtr.asFunction<
-          void Function(FPDF_FORMHANDLE, int, int)>();
-
-  void FPDF_SetFormFieldHighlightAlpha(
-    FPDF_FORMHANDLE hHandle,
-    int alpha,
-  ) {
-    return _FPDF_SetFormFieldHighlightAlpha(
-      hHandle,
-      alpha,
-    );
-  }
-
-  late final _FPDF_SetFormFieldHighlightAlphaPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(FPDF_FORMHANDLE,
-              ffi.UnsignedChar)>>('FPDF_SetFormFieldHighlightAlpha');
-  late final _FPDF_SetFormFieldHighlightAlpha =
-      _FPDF_SetFormFieldHighlightAlphaPtr.asFunction<
-          void Function(FPDF_FORMHANDLE, int)>();
-
-  void FPDF_RemoveFormFieldHighlight(
-    FPDF_FORMHANDLE hHandle,
-  ) {
-    return _FPDF_RemoveFormFieldHighlight(
-      hHandle,
-    );
-  }
-
-  late final _FPDF_RemoveFormFieldHighlightPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE)>>(
-          'FPDF_RemoveFormFieldHighlight');
-  late final _FPDF_RemoveFormFieldHighlight = _FPDF_RemoveFormFieldHighlightPtr
-      .asFunction<void Function(FPDF_FORMHANDLE)>();
-
-  void FPDF_FFLDraw(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_BITMAP bitmap,
-    FPDF_PAGE page,
-    int start_x,
-    int start_y,
-    int size_x,
-    int size_y,
-    int rotate,
-    int flags,
-  ) {
-    return _FPDF_FFLDraw(
-      hHandle,
-      bitmap,
-      page,
-      start_x,
-      start_y,
-      size_x,
-      size_y,
-      rotate,
-      flags,
-    );
-  }
-
-  late final _FPDF_FFLDrawPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(FPDF_FORMHANDLE, FPDF_BITMAP, FPDF_PAGE, ffi.Int,
-              ffi.Int, ffi.Int, ffi.Int, ffi.Int, ffi.Int)>>('FPDF_FFLDraw');
-  late final _FPDF_FFLDraw = _FPDF_FFLDrawPtr.asFunction<
-      void Function(FPDF_FORMHANDLE, FPDF_BITMAP, FPDF_PAGE, int, int, int, int,
-          int, int)>();
-
-  int FPDF_GetFormType(
-    FPDF_DOCUMENT document,
-  ) {
-    return _FPDF_GetFormType(
-      document,
-    );
-  }
-
-  late final _FPDF_GetFormTypePtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(FPDF_DOCUMENT)>>(
-          'FPDF_GetFormType');
-  late final _FPDF_GetFormType =
-      _FPDF_GetFormTypePtr.asFunction<int Function(FPDF_DOCUMENT)>();
-
-  int FORM_SetIndexSelected(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int index,
-    int selected,
-  ) {
-    return _FORM_SetIndexSelected(
-      hHandle,
-      page,
-      index,
-      selected,
-    );
-  }
-
-  late final _FORM_SetIndexSelectedPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int,
-              FPDF_BOOL)>>('FORM_SetIndexSelected');
-  late final _FORM_SetIndexSelected = _FORM_SetIndexSelectedPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, int)>();
-
-  int FORM_IsIndexSelected(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_PAGE page,
-    int index,
-  ) {
-    return _FORM_IsIndexSelected(
-      hHandle,
-      page,
-      index,
-    );
-  }
-
-  late final _FORM_IsIndexSelectedPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(
-              FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int)>>('FORM_IsIndexSelected');
-  late final _FORM_IsIndexSelected = _FORM_IsIndexSelectedPtr.asFunction<
-      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int)>();
-
-  int FPDF_LoadXFA(
-    FPDF_DOCUMENT document,
-  ) {
-    return _FPDF_LoadXFA(
-      document,
-    );
-  }
-
-  late final _FPDF_LoadXFAPtr =
-      _lookup<ffi.NativeFunction<FPDF_BOOL Function(FPDF_DOCUMENT)>>(
-          'FPDF_LoadXFA');
-  late final _FPDF_LoadXFA =
-      _FPDF_LoadXFAPtr.asFunction<int Function(FPDF_DOCUMENT)>();
 
   int FPDFAnnot_IsSupportedSubtype(
     int subtype,
@@ -2029,9 +1239,9 @@ class pdfium {
   late final _FPDFAnnot_RemoveObject = _FPDFAnnot_RemoveObjectPtr.asFunction<
       int Function(FPDF_ANNOTATION, int)>();
 
-  DartFPDF_BOOL FPDFAnnot_SetColor(
+  int FPDFAnnot_SetColor(
     FPDF_ANNOTATION annot,
-    FPDFANNOT_COLORTYPE type,
+    int type,
     int R,
     int G,
     int B,
@@ -2039,7 +1249,7 @@ class pdfium {
   ) {
     return _FPDFAnnot_SetColor(
       annot,
-      type.value,
+      type,
       R,
       G,
       B,
@@ -2051,7 +1261,7 @@ class pdfium {
       ffi.NativeFunction<
           FPDF_BOOL Function(
               FPDF_ANNOTATION,
-              ffi.UnsignedInt,
+              ffi.Int32,
               ffi.UnsignedInt,
               ffi.UnsignedInt,
               ffi.UnsignedInt,
@@ -2059,9 +1269,9 @@ class pdfium {
   late final _FPDFAnnot_SetColor = _FPDFAnnot_SetColorPtr.asFunction<
       int Function(FPDF_ANNOTATION, int, int, int, int, int)>();
 
-  DartFPDF_BOOL FPDFAnnot_GetColor(
+  int FPDFAnnot_GetColor(
     FPDF_ANNOTATION annot,
-    FPDFANNOT_COLORTYPE type,
+    int type,
     ffi.Pointer<ffi.UnsignedInt> R,
     ffi.Pointer<ffi.UnsignedInt> G,
     ffi.Pointer<ffi.UnsignedInt> B,
@@ -2069,7 +1279,7 @@ class pdfium {
   ) {
     return _FPDFAnnot_GetColor(
       annot,
-      type.value,
+      type,
       R,
       G,
       B,
@@ -2081,7 +1291,7 @@ class pdfium {
       ffi.NativeFunction<
           FPDF_BOOL Function(
               FPDF_ANNOTATION,
-              ffi.UnsignedInt,
+              ffi.Int32,
               ffi.Pointer<ffi.UnsignedInt>,
               ffi.Pointer<ffi.UnsignedInt>,
               ffi.Pointer<ffi.UnsignedInt>,
@@ -2772,38 +1982,6 @@ class pdfium {
   late final _FPDFAnnot_GetFontSize = _FPDFAnnot_GetFontSizePtr.asFunction<
       int Function(FPDF_FORMHANDLE, FPDF_ANNOTATION, ffi.Pointer<ffi.Float>)>();
 
-  int FPDFAnnot_GetFontColor(
-    FPDF_FORMHANDLE hHandle,
-    FPDF_ANNOTATION annot,
-    ffi.Pointer<ffi.UnsignedInt> R,
-    ffi.Pointer<ffi.UnsignedInt> G,
-    ffi.Pointer<ffi.UnsignedInt> B,
-  ) {
-    return _FPDFAnnot_GetFontColor(
-      hHandle,
-      annot,
-      R,
-      G,
-      B,
-    );
-  }
-
-  late final _FPDFAnnot_GetFontColorPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_BOOL Function(
-              FPDF_FORMHANDLE,
-              FPDF_ANNOTATION,
-              ffi.Pointer<ffi.UnsignedInt>,
-              ffi.Pointer<ffi.UnsignedInt>,
-              ffi.Pointer<ffi.UnsignedInt>)>>('FPDFAnnot_GetFontColor');
-  late final _FPDFAnnot_GetFontColor = _FPDFAnnot_GetFontColorPtr.asFunction<
-      int Function(
-          FPDF_FORMHANDLE,
-          FPDF_ANNOTATION,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<ffi.UnsignedInt>)>();
-
   int FPDFAnnot_IsChecked(
     FPDF_FORMHANDLE hHandle,
     FPDF_ANNOTATION annot,
@@ -2973,37 +2151,6 @@ class pdfium {
   late final _FPDFAnnot_SetURI = _FPDFAnnot_SetURIPtr.asFunction<
       int Function(FPDF_ANNOTATION, ffi.Pointer<ffi.Char>)>();
 
-  FPDF_ATTACHMENT FPDFAnnot_GetFileAttachment(
-    FPDF_ANNOTATION annot,
-  ) {
-    return _FPDFAnnot_GetFileAttachment(
-      annot,
-    );
-  }
-
-  late final _FPDFAnnot_GetFileAttachmentPtr =
-      _lookup<ffi.NativeFunction<FPDF_ATTACHMENT Function(FPDF_ANNOTATION)>>(
-          'FPDFAnnot_GetFileAttachment');
-  late final _FPDFAnnot_GetFileAttachment = _FPDFAnnot_GetFileAttachmentPtr
-      .asFunction<FPDF_ATTACHMENT Function(FPDF_ANNOTATION)>();
-
-  FPDF_ATTACHMENT FPDFAnnot_AddFileAttachment(
-    FPDF_ANNOTATION annot,
-    FPDF_WIDESTRING name,
-  ) {
-    return _FPDFAnnot_AddFileAttachment(
-      annot,
-      name,
-    );
-  }
-
-  late final _FPDFAnnot_AddFileAttachmentPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_ATTACHMENT Function(FPDF_ANNOTATION,
-              FPDF_WIDESTRING)>>('FPDFAnnot_AddFileAttachment');
-  late final _FPDFAnnot_AddFileAttachment = _FPDFAnnot_AddFileAttachmentPtr
-      .asFunction<FPDF_ATTACHMENT Function(FPDF_ANNOTATION, FPDF_WIDESTRING)>();
-
   FPDF_TEXTPAGE FPDFText_LoadPage(
     FPDF_PAGE page,
   ) {
@@ -3170,18 +2317,18 @@ class pdfium {
   late final _FPDFText_GetFontWeight =
       _FPDFText_GetFontWeightPtr.asFunction<int Function(FPDF_TEXTPAGE, int)>();
 
-  FPDF_TEXT_RENDERMODE FPDFText_GetTextRenderMode(
+  int FPDFText_GetTextRenderMode(
     FPDF_TEXTPAGE text_page,
     int index,
   ) {
-    return FPDF_TEXT_RENDERMODE.fromValue(_FPDFText_GetTextRenderMode(
+    return _FPDFText_GetTextRenderMode(
       text_page,
       index,
-    ));
+    );
   }
 
   late final _FPDFText_GetTextRenderModePtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(FPDF_TEXTPAGE, ffi.Int)>>(
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(FPDF_TEXTPAGE, ffi.Int)>>(
           'FPDFText_GetTextRenderMode');
   late final _FPDFText_GetTextRenderMode = _FPDFText_GetTextRenderModePtr
       .asFunction<int Function(FPDF_TEXTPAGE, int)>();
@@ -4171,13 +3318,13 @@ class pdfium {
 
   int FPDF_GetFileIdentifier(
     FPDF_DOCUMENT document,
-    FPDF_FILEIDTYPE id_type,
+    int id_type,
     ffi.Pointer<ffi.Void> buffer,
     int buflen,
   ) {
     return _FPDF_GetFileIdentifier(
       document,
-      id_type.value,
+      id_type,
       buffer,
       buflen,
     );
@@ -4187,7 +3334,7 @@ class pdfium {
       ffi.NativeFunction<
           ffi.UnsignedLong Function(
               FPDF_DOCUMENT,
-              ffi.UnsignedInt,
+              ffi.Int32,
               ffi.Pointer<ffi.Void>,
               ffi.UnsignedLong)>>('FPDF_GetFileIdentifier');
   late final _FPDF_GetFileIdentifier = _FPDF_GetFileIdentifierPtr.asFunction<
@@ -5864,38 +5011,6 @@ class pdfium {
   late final _FPDFText_LoadStandardFont = _FPDFText_LoadStandardFontPtr
       .asFunction<FPDF_FONT Function(FPDF_DOCUMENT, FPDF_BYTESTRING)>();
 
-  FPDF_FONT FPDFText_LoadCidType2Font(
-    FPDF_DOCUMENT document,
-    ffi.Pointer<ffi.Uint8> font_data,
-    int font_data_size,
-    FPDF_BYTESTRING to_unicode_cmap,
-    ffi.Pointer<ffi.Uint8> cid_to_gid_map_data,
-    int cid_to_gid_map_data_size,
-  ) {
-    return _FPDFText_LoadCidType2Font(
-      document,
-      font_data,
-      font_data_size,
-      to_unicode_cmap,
-      cid_to_gid_map_data,
-      cid_to_gid_map_data_size,
-    );
-  }
-
-  late final _FPDFText_LoadCidType2FontPtr = _lookup<
-      ffi.NativeFunction<
-          FPDF_FONT Function(
-              FPDF_DOCUMENT,
-              ffi.Pointer<ffi.Uint8>,
-              ffi.Uint32,
-              FPDF_BYTESTRING,
-              ffi.Pointer<ffi.Uint8>,
-              ffi.Uint32)>>('FPDFText_LoadCidType2Font');
-  late final _FPDFText_LoadCidType2Font =
-      _FPDFText_LoadCidType2FontPtr.asFunction<
-          FPDF_FONT Function(FPDF_DOCUMENT, ffi.Pointer<ffi.Uint8>, int,
-              FPDF_BYTESTRING, ffi.Pointer<ffi.Uint8>, int)>();
-
   int FPDFTextObj_GetFontSize(
     FPDF_PAGEOBJECT text,
     ffi.Pointer<ffi.Float> size,
@@ -5946,33 +5061,33 @@ class pdfium {
   late final _FPDFPageObj_CreateTextObj = _FPDFPageObj_CreateTextObjPtr
       .asFunction<FPDF_PAGEOBJECT Function(FPDF_DOCUMENT, FPDF_FONT, double)>();
 
-  FPDF_TEXT_RENDERMODE FPDFTextObj_GetTextRenderMode(
+  int FPDFTextObj_GetTextRenderMode(
     FPDF_PAGEOBJECT text,
   ) {
-    return FPDF_TEXT_RENDERMODE.fromValue(_FPDFTextObj_GetTextRenderMode(
+    return _FPDFTextObj_GetTextRenderMode(
       text,
-    ));
+    );
   }
 
   late final _FPDFTextObj_GetTextRenderModePtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(FPDF_PAGEOBJECT)>>(
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(FPDF_PAGEOBJECT)>>(
           'FPDFTextObj_GetTextRenderMode');
   late final _FPDFTextObj_GetTextRenderMode = _FPDFTextObj_GetTextRenderModePtr
       .asFunction<int Function(FPDF_PAGEOBJECT)>();
 
-  DartFPDF_BOOL FPDFTextObj_SetTextRenderMode(
+  int FPDFTextObj_SetTextRenderMode(
     FPDF_PAGEOBJECT text,
-    FPDF_TEXT_RENDERMODE render_mode,
+    int render_mode,
   ) {
     return _FPDFTextObj_SetTextRenderMode(
       text,
-      render_mode.value,
+      render_mode,
     );
   }
 
-  late final _FPDFTextObj_SetTextRenderModePtr =
-      _lookup<ffi.NativeFunction<FPDF_BOOL Function(FPDF_PAGEOBJECT, ffi.Int)>>(
-          'FPDFTextObj_SetTextRenderMode');
+  late final _FPDFTextObj_SetTextRenderModePtr = _lookup<
+          ffi.NativeFunction<FPDF_BOOL Function(FPDF_PAGEOBJECT, ffi.Int32)>>(
+      'FPDFTextObj_SetTextRenderMode');
   late final _FPDFTextObj_SetTextRenderMode = _FPDFTextObj_SetTextRenderModePtr
       .asFunction<int Function(FPDF_PAGEOBJECT, int)>();
 
@@ -6279,194 +5394,873 @@ class pdfium {
               FPDF_PAGEOBJECT, ffi.UnsignedLong)>>('FPDFFormObj_GetObject');
   late final _FPDFFormObj_GetObject = _FPDFFormObj_GetObjectPtr.asFunction<
       FPDF_PAGEOBJECT Function(FPDF_PAGEOBJECT, int)>();
+
+  FPDF_FORMHANDLE FPDFDOC_InitFormFillEnvironment(
+    FPDF_DOCUMENT document,
+    ffi.Pointer<FPDF_FORMFILLINFO> formInfo,
+  ) {
+    return _FPDFDOC_InitFormFillEnvironment(
+      document,
+      formInfo,
+    );
+  }
+
+  late final _FPDFDOC_InitFormFillEnvironmentPtr = _lookup<
+          ffi.NativeFunction<
+              FPDF_FORMHANDLE Function(
+                  FPDF_DOCUMENT, ffi.Pointer<FPDF_FORMFILLINFO>)>>(
+      'FPDFDOC_InitFormFillEnvironment');
+  late final _FPDFDOC_InitFormFillEnvironment =
+      _FPDFDOC_InitFormFillEnvironmentPtr.asFunction<
+          FPDF_FORMHANDLE Function(
+              FPDF_DOCUMENT, ffi.Pointer<FPDF_FORMFILLINFO>)>();
+
+  void FPDFDOC_ExitFormFillEnvironment(
+    FPDF_FORMHANDLE hHandle,
+  ) {
+    return _FPDFDOC_ExitFormFillEnvironment(
+      hHandle,
+    );
+  }
+
+  late final _FPDFDOC_ExitFormFillEnvironmentPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE)>>(
+          'FPDFDOC_ExitFormFillEnvironment');
+  late final _FPDFDOC_ExitFormFillEnvironment =
+      _FPDFDOC_ExitFormFillEnvironmentPtr.asFunction<
+          void Function(FPDF_FORMHANDLE)>();
+
+  void FORM_OnAfterLoadPage(
+    FPDF_PAGE page,
+    FPDF_FORMHANDLE hHandle,
+  ) {
+    return _FORM_OnAfterLoadPage(
+      page,
+      hHandle,
+    );
+  }
+
+  late final _FORM_OnAfterLoadPagePtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(FPDF_PAGE, FPDF_FORMHANDLE)>>(
+      'FORM_OnAfterLoadPage');
+  late final _FORM_OnAfterLoadPage = _FORM_OnAfterLoadPagePtr.asFunction<
+      void Function(FPDF_PAGE, FPDF_FORMHANDLE)>();
+
+  void FORM_OnBeforeClosePage(
+    FPDF_PAGE page,
+    FPDF_FORMHANDLE hHandle,
+  ) {
+    return _FORM_OnBeforeClosePage(
+      page,
+      hHandle,
+    );
+  }
+
+  late final _FORM_OnBeforeClosePagePtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(FPDF_PAGE, FPDF_FORMHANDLE)>>(
+      'FORM_OnBeforeClosePage');
+  late final _FORM_OnBeforeClosePage = _FORM_OnBeforeClosePagePtr.asFunction<
+      void Function(FPDF_PAGE, FPDF_FORMHANDLE)>();
+
+  void FORM_DoDocumentJSAction(
+    FPDF_FORMHANDLE hHandle,
+  ) {
+    return _FORM_DoDocumentJSAction(
+      hHandle,
+    );
+  }
+
+  late final _FORM_DoDocumentJSActionPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE)>>(
+          'FORM_DoDocumentJSAction');
+  late final _FORM_DoDocumentJSAction =
+      _FORM_DoDocumentJSActionPtr.asFunction<void Function(FPDF_FORMHANDLE)>();
+
+  void FORM_DoDocumentOpenAction(
+    FPDF_FORMHANDLE hHandle,
+  ) {
+    return _FORM_DoDocumentOpenAction(
+      hHandle,
+    );
+  }
+
+  late final _FORM_DoDocumentOpenActionPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE)>>(
+          'FORM_DoDocumentOpenAction');
+  late final _FORM_DoDocumentOpenAction = _FORM_DoDocumentOpenActionPtr
+      .asFunction<void Function(FPDF_FORMHANDLE)>();
+
+  void FORM_DoDocumentAAction(
+    FPDF_FORMHANDLE hHandle,
+    int aaType,
+  ) {
+    return _FORM_DoDocumentAAction(
+      hHandle,
+      aaType,
+    );
+  }
+
+  late final _FORM_DoDocumentAActionPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE, ffi.Int)>>(
+          'FORM_DoDocumentAAction');
+  late final _FORM_DoDocumentAAction = _FORM_DoDocumentAActionPtr.asFunction<
+      void Function(FPDF_FORMHANDLE, int)>();
+
+  void FORM_DoPageAAction(
+    FPDF_PAGE page,
+    FPDF_FORMHANDLE hHandle,
+    int aaType,
+  ) {
+    return _FORM_DoPageAAction(
+      page,
+      hHandle,
+      aaType,
+    );
+  }
+
+  late final _FORM_DoPageAActionPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              FPDF_PAGE, FPDF_FORMHANDLE, ffi.Int)>>('FORM_DoPageAAction');
+  late final _FORM_DoPageAAction = _FORM_DoPageAActionPtr.asFunction<
+      void Function(FPDF_PAGE, FPDF_FORMHANDLE, int)>();
+
+  int FORM_OnMouseMove(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int modifier,
+    double page_x,
+    double page_y,
+  ) {
+    return _FORM_OnMouseMove(
+      hHandle,
+      page,
+      modifier,
+      page_x,
+      page_y,
+    );
+  }
+
+  late final _FORM_OnMouseMovePtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
+              ffi.Double)>>('FORM_OnMouseMove');
+  late final _FORM_OnMouseMove = _FORM_OnMouseMovePtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
+
+  int FORM_OnMouseWheel(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int modifier,
+    ffi.Pointer<FS_POINTF> page_coord,
+    int delta_x,
+    int delta_y,
+  ) {
+    return _FORM_OnMouseWheel(
+      hHandle,
+      page,
+      modifier,
+      page_coord,
+      delta_x,
+      delta_y,
+    );
+  }
+
+  late final _FORM_OnMouseWheelPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int,
+              ffi.Pointer<FS_POINTF>, ffi.Int, ffi.Int)>>('FORM_OnMouseWheel');
+  late final _FORM_OnMouseWheel = _FORM_OnMouseWheelPtr.asFunction<
+      int Function(
+          FPDF_FORMHANDLE, FPDF_PAGE, int, ffi.Pointer<FS_POINTF>, int, int)>();
+
+  int FORM_OnFocus(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int modifier,
+    double page_x,
+    double page_y,
+  ) {
+    return _FORM_OnFocus(
+      hHandle,
+      page,
+      modifier,
+      page_x,
+      page_y,
+    );
+  }
+
+  late final _FORM_OnFocusPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
+              ffi.Double)>>('FORM_OnFocus');
+  late final _FORM_OnFocus = _FORM_OnFocusPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
+
+  int FORM_OnLButtonDown(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int modifier,
+    double page_x,
+    double page_y,
+  ) {
+    return _FORM_OnLButtonDown(
+      hHandle,
+      page,
+      modifier,
+      page_x,
+      page_y,
+    );
+  }
+
+  late final _FORM_OnLButtonDownPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
+              ffi.Double)>>('FORM_OnLButtonDown');
+  late final _FORM_OnLButtonDown = _FORM_OnLButtonDownPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
+
+  int FORM_OnRButtonDown(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int modifier,
+    double page_x,
+    double page_y,
+  ) {
+    return _FORM_OnRButtonDown(
+      hHandle,
+      page,
+      modifier,
+      page_x,
+      page_y,
+    );
+  }
+
+  late final _FORM_OnRButtonDownPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
+              ffi.Double)>>('FORM_OnRButtonDown');
+  late final _FORM_OnRButtonDown = _FORM_OnRButtonDownPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
+
+  int FORM_OnLButtonUp(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int modifier,
+    double page_x,
+    double page_y,
+  ) {
+    return _FORM_OnLButtonUp(
+      hHandle,
+      page,
+      modifier,
+      page_x,
+      page_y,
+    );
+  }
+
+  late final _FORM_OnLButtonUpPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
+              ffi.Double)>>('FORM_OnLButtonUp');
+  late final _FORM_OnLButtonUp = _FORM_OnLButtonUpPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
+
+  int FORM_OnRButtonUp(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int modifier,
+    double page_x,
+    double page_y,
+  ) {
+    return _FORM_OnRButtonUp(
+      hHandle,
+      page,
+      modifier,
+      page_x,
+      page_y,
+    );
+  }
+
+  late final _FORM_OnRButtonUpPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
+              ffi.Double)>>('FORM_OnRButtonUp');
+  late final _FORM_OnRButtonUp = _FORM_OnRButtonUpPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
+
+  int FORM_OnLButtonDoubleClick(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int modifier,
+    double page_x,
+    double page_y,
+  ) {
+    return _FORM_OnLButtonDoubleClick(
+      hHandle,
+      page,
+      modifier,
+      page_x,
+      page_y,
+    );
+  }
+
+  late final _FORM_OnLButtonDoubleClickPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Double,
+              ffi.Double)>>('FORM_OnLButtonDoubleClick');
+  late final _FORM_OnLButtonDoubleClick =
+      _FORM_OnLButtonDoubleClickPtr.asFunction<
+          int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, double, double)>();
+
+  int FORM_OnKeyDown(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int nKeyCode,
+    int modifier,
+  ) {
+    return _FORM_OnKeyDown(
+      hHandle,
+      page,
+      nKeyCode,
+      modifier,
+    );
+  }
+
+  late final _FORM_OnKeyDownPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(
+              FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Int)>>('FORM_OnKeyDown');
+  late final _FORM_OnKeyDown = _FORM_OnKeyDownPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, int)>();
+
+  int FORM_OnKeyUp(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int nKeyCode,
+    int modifier,
+  ) {
+    return _FORM_OnKeyUp(
+      hHandle,
+      page,
+      nKeyCode,
+      modifier,
+    );
+  }
+
+  late final _FORM_OnKeyUpPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(
+              FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Int)>>('FORM_OnKeyUp');
+  late final _FORM_OnKeyUp = _FORM_OnKeyUpPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, int)>();
+
+  int FORM_OnChar(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int nChar,
+    int modifier,
+  ) {
+    return _FORM_OnChar(
+      hHandle,
+      page,
+      nChar,
+      modifier,
+    );
+  }
+
+  late final _FORM_OnCharPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(
+              FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int, ffi.Int)>>('FORM_OnChar');
+  late final _FORM_OnChar = _FORM_OnCharPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, int)>();
+
+  int FORM_GetFocusedText(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    ffi.Pointer<ffi.Void> buffer,
+    int buflen,
+  ) {
+    return _FORM_GetFocusedText(
+      hHandle,
+      page,
+      buffer,
+      buflen,
+    );
+  }
+
+  late final _FORM_GetFocusedTextPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedLong Function(FPDF_FORMHANDLE, FPDF_PAGE,
+              ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>>('FORM_GetFocusedText');
+  late final _FORM_GetFocusedText = _FORM_GetFocusedTextPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Pointer<ffi.Void>, int)>();
+
+  int FORM_GetSelectedText(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    ffi.Pointer<ffi.Void> buffer,
+    int buflen,
+  ) {
+    return _FORM_GetSelectedText(
+      hHandle,
+      page,
+      buffer,
+      buflen,
+    );
+  }
+
+  late final _FORM_GetSelectedTextPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedLong Function(
+              FPDF_FORMHANDLE,
+              FPDF_PAGE,
+              ffi.Pointer<ffi.Void>,
+              ffi.UnsignedLong)>>('FORM_GetSelectedText');
+  late final _FORM_GetSelectedText = _FORM_GetSelectedTextPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Pointer<ffi.Void>, int)>();
+
+  void FORM_ReplaceAndKeepSelection(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    FPDF_WIDESTRING wsText,
+  ) {
+    return _FORM_ReplaceAndKeepSelection(
+      hHandle,
+      page,
+      wsText,
+    );
+  }
+
+  late final _FORM_ReplaceAndKeepSelectionPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(FPDF_FORMHANDLE, FPDF_PAGE,
+              FPDF_WIDESTRING)>>('FORM_ReplaceAndKeepSelection');
+  late final _FORM_ReplaceAndKeepSelection = _FORM_ReplaceAndKeepSelectionPtr
+      .asFunction<void Function(FPDF_FORMHANDLE, FPDF_PAGE, FPDF_WIDESTRING)>();
+
+  void FORM_ReplaceSelection(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    FPDF_WIDESTRING wsText,
+  ) {
+    return _FORM_ReplaceSelection(
+      hHandle,
+      page,
+      wsText,
+    );
+  }
+
+  late final _FORM_ReplaceSelectionPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(FPDF_FORMHANDLE, FPDF_PAGE,
+              FPDF_WIDESTRING)>>('FORM_ReplaceSelection');
+  late final _FORM_ReplaceSelection = _FORM_ReplaceSelectionPtr.asFunction<
+      void Function(FPDF_FORMHANDLE, FPDF_PAGE, FPDF_WIDESTRING)>();
+
+  int FORM_SelectAllText(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+  ) {
+    return _FORM_SelectAllText(
+      hHandle,
+      page,
+    );
+  }
+
+  late final _FORM_SelectAllTextPtr = _lookup<
+          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
+      'FORM_SelectAllText');
+  late final _FORM_SelectAllText = _FORM_SelectAllTextPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
+
+  int FORM_CanUndo(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+  ) {
+    return _FORM_CanUndo(
+      hHandle,
+      page,
+    );
+  }
+
+  late final _FORM_CanUndoPtr = _lookup<
+          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
+      'FORM_CanUndo');
+  late final _FORM_CanUndo =
+      _FORM_CanUndoPtr.asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
+
+  int FORM_CanRedo(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+  ) {
+    return _FORM_CanRedo(
+      hHandle,
+      page,
+    );
+  }
+
+  late final _FORM_CanRedoPtr = _lookup<
+          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
+      'FORM_CanRedo');
+  late final _FORM_CanRedo =
+      _FORM_CanRedoPtr.asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
+
+  int FORM_Undo(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+  ) {
+    return _FORM_Undo(
+      hHandle,
+      page,
+    );
+  }
+
+  late final _FORM_UndoPtr = _lookup<
+          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
+      'FORM_Undo');
+  late final _FORM_Undo =
+      _FORM_UndoPtr.asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
+
+  int FORM_Redo(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+  ) {
+    return _FORM_Redo(
+      hHandle,
+      page,
+    );
+  }
+
+  late final _FORM_RedoPtr = _lookup<
+          ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE)>>(
+      'FORM_Redo');
+  late final _FORM_Redo =
+      _FORM_RedoPtr.asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE)>();
+
+  int FORM_ForceToKillFocus(
+    FPDF_FORMHANDLE hHandle,
+  ) {
+    return _FORM_ForceToKillFocus(
+      hHandle,
+    );
+  }
+
+  late final _FORM_ForceToKillFocusPtr =
+      _lookup<ffi.NativeFunction<FPDF_BOOL Function(FPDF_FORMHANDLE)>>(
+          'FORM_ForceToKillFocus');
+  late final _FORM_ForceToKillFocus =
+      _FORM_ForceToKillFocusPtr.asFunction<int Function(FPDF_FORMHANDLE)>();
+
+  int FORM_GetFocusedAnnot(
+    FPDF_FORMHANDLE handle,
+    ffi.Pointer<ffi.Int> page_index,
+    ffi.Pointer<FPDF_ANNOTATION> annot,
+  ) {
+    return _FORM_GetFocusedAnnot(
+      handle,
+      page_index,
+      annot,
+    );
+  }
+
+  late final _FORM_GetFocusedAnnotPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, ffi.Pointer<ffi.Int>,
+              ffi.Pointer<FPDF_ANNOTATION>)>>('FORM_GetFocusedAnnot');
+  late final _FORM_GetFocusedAnnot = _FORM_GetFocusedAnnotPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, ffi.Pointer<ffi.Int>,
+          ffi.Pointer<FPDF_ANNOTATION>)>();
+
+  int FORM_SetFocusedAnnot(
+    FPDF_FORMHANDLE handle,
+    FPDF_ANNOTATION annot,
+  ) {
+    return _FORM_SetFocusedAnnot(
+      handle,
+      annot,
+    );
+  }
+
+  late final _FORM_SetFocusedAnnotPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(
+              FPDF_FORMHANDLE, FPDF_ANNOTATION)>>('FORM_SetFocusedAnnot');
+  late final _FORM_SetFocusedAnnot = _FORM_SetFocusedAnnotPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_ANNOTATION)>();
+
+  int FPDFPage_HasFormFieldAtPoint(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    double page_x,
+    double page_y,
+  ) {
+    return _FPDFPage_HasFormFieldAtPoint(
+      hHandle,
+      page,
+      page_x,
+      page_y,
+    );
+  }
+
+  late final _FPDFPage_HasFormFieldAtPointPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Double,
+              ffi.Double)>>('FPDFPage_HasFormFieldAtPoint');
+  late final _FPDFPage_HasFormFieldAtPoint = _FPDFPage_HasFormFieldAtPointPtr
+      .asFunction<int Function(FPDF_FORMHANDLE, FPDF_PAGE, double, double)>();
+
+  int FPDFPage_FormFieldZOrderAtPoint(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    double page_x,
+    double page_y,
+  ) {
+    return _FPDFPage_FormFieldZOrderAtPoint(
+      hHandle,
+      page,
+      page_x,
+      page_y,
+    );
+  }
+
+  late final _FPDFPage_FormFieldZOrderAtPointPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Double,
+              ffi.Double)>>('FPDFPage_FormFieldZOrderAtPoint');
+  late final _FPDFPage_FormFieldZOrderAtPoint =
+      _FPDFPage_FormFieldZOrderAtPointPtr.asFunction<
+          int Function(FPDF_FORMHANDLE, FPDF_PAGE, double, double)>();
+
+  void FPDF_SetFormFieldHighlightColor(
+    FPDF_FORMHANDLE hHandle,
+    int fieldType,
+    int color,
+  ) {
+    return _FPDF_SetFormFieldHighlightColor(
+      hHandle,
+      fieldType,
+      color,
+    );
+  }
+
+  late final _FPDF_SetFormFieldHighlightColorPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(FPDF_FORMHANDLE, ffi.Int,
+              ffi.UnsignedLong)>>('FPDF_SetFormFieldHighlightColor');
+  late final _FPDF_SetFormFieldHighlightColor =
+      _FPDF_SetFormFieldHighlightColorPtr.asFunction<
+          void Function(FPDF_FORMHANDLE, int, int)>();
+
+  void FPDF_SetFormFieldHighlightAlpha(
+    FPDF_FORMHANDLE hHandle,
+    int alpha,
+  ) {
+    return _FPDF_SetFormFieldHighlightAlpha(
+      hHandle,
+      alpha,
+    );
+  }
+
+  late final _FPDF_SetFormFieldHighlightAlphaPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(FPDF_FORMHANDLE,
+              ffi.UnsignedChar)>>('FPDF_SetFormFieldHighlightAlpha');
+  late final _FPDF_SetFormFieldHighlightAlpha =
+      _FPDF_SetFormFieldHighlightAlphaPtr.asFunction<
+          void Function(FPDF_FORMHANDLE, int)>();
+
+  void FPDF_RemoveFormFieldHighlight(
+    FPDF_FORMHANDLE hHandle,
+  ) {
+    return _FPDF_RemoveFormFieldHighlight(
+      hHandle,
+    );
+  }
+
+  late final _FPDF_RemoveFormFieldHighlightPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(FPDF_FORMHANDLE)>>(
+          'FPDF_RemoveFormFieldHighlight');
+  late final _FPDF_RemoveFormFieldHighlight = _FPDF_RemoveFormFieldHighlightPtr
+      .asFunction<void Function(FPDF_FORMHANDLE)>();
+
+  void FPDF_FFLDraw(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_BITMAP bitmap,
+    FPDF_PAGE page,
+    int start_x,
+    int start_y,
+    int size_x,
+    int size_y,
+    int rotate,
+    int flags,
+  ) {
+    return _FPDF_FFLDraw(
+      hHandle,
+      bitmap,
+      page,
+      start_x,
+      start_y,
+      size_x,
+      size_y,
+      rotate,
+      flags,
+    );
+  }
+
+  late final _FPDF_FFLDrawPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(FPDF_FORMHANDLE, FPDF_BITMAP, FPDF_PAGE, ffi.Int,
+              ffi.Int, ffi.Int, ffi.Int, ffi.Int, ffi.Int)>>('FPDF_FFLDraw');
+  late final _FPDF_FFLDraw = _FPDF_FFLDrawPtr.asFunction<
+      void Function(FPDF_FORMHANDLE, FPDF_BITMAP, FPDF_PAGE, int, int, int, int,
+          int, int)>();
+
+  int FPDF_GetFormType(
+    FPDF_DOCUMENT document,
+  ) {
+    return _FPDF_GetFormType(
+      document,
+    );
+  }
+
+  late final _FPDF_GetFormTypePtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function(FPDF_DOCUMENT)>>(
+          'FPDF_GetFormType');
+  late final _FPDF_GetFormType =
+      _FPDF_GetFormTypePtr.asFunction<int Function(FPDF_DOCUMENT)>();
+
+  int FORM_SetIndexSelected(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int index,
+    int selected,
+  ) {
+    return _FORM_SetIndexSelected(
+      hHandle,
+      page,
+      index,
+      selected,
+    );
+  }
+
+  late final _FORM_SetIndexSelectedPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int,
+              FPDF_BOOL)>>('FORM_SetIndexSelected');
+  late final _FORM_SetIndexSelected = _FORM_SetIndexSelectedPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int, int)>();
+
+  int FORM_IsIndexSelected(
+    FPDF_FORMHANDLE hHandle,
+    FPDF_PAGE page,
+    int index,
+  ) {
+    return _FORM_IsIndexSelected(
+      hHandle,
+      page,
+      index,
+    );
+  }
+
+  late final _FORM_IsIndexSelectedPtr = _lookup<
+      ffi.NativeFunction<
+          FPDF_BOOL Function(
+              FPDF_FORMHANDLE, FPDF_PAGE, ffi.Int)>>('FORM_IsIndexSelected');
+  late final _FORM_IsIndexSelected = _FORM_IsIndexSelectedPtr.asFunction<
+      int Function(FPDF_FORMHANDLE, FPDF_PAGE, int)>();
+
+  int FPDF_LoadXFA(
+    FPDF_DOCUMENT document,
+  ) {
+    return _FPDF_LoadXFA(
+      document,
+    );
+  }
+
+  late final _FPDF_LoadXFAPtr =
+      _lookup<ffi.NativeFunction<FPDF_BOOL Function(FPDF_DOCUMENT)>>(
+          'FPDF_LoadXFA');
+  late final _FPDF_LoadXFA =
+      _FPDF_LoadXFAPtr.asFunction<int Function(FPDF_DOCUMENT)>();
 }
 
-enum FPDF_TEXT_RENDERMODE {
-  FPDF_TEXTRENDERMODE_UNKNOWN(-1),
-  FPDF_TEXTRENDERMODE_FILL(0),
-  FPDF_TEXTRENDERMODE_STROKE(1),
-  FPDF_TEXTRENDERMODE_FILL_STROKE(2),
-  FPDF_TEXTRENDERMODE_INVISIBLE(3),
-  FPDF_TEXTRENDERMODE_FILL_CLIP(4),
-  FPDF_TEXTRENDERMODE_STROKE_CLIP(5),
-  FPDF_TEXTRENDERMODE_FILL_STROKE_CLIP(6),
-  FPDF_TEXTRENDERMODE_CLIP(7);
-
-  static const FPDF_TEXTRENDERMODE_LAST = FPDF_TEXTRENDERMODE_CLIP;
-
-  final int value;
-  const FPDF_TEXT_RENDERMODE(this.value);
-
-  static FPDF_TEXT_RENDERMODE fromValue(int value) => switch (value) {
-        -1 => FPDF_TEXTRENDERMODE_UNKNOWN,
-        0 => FPDF_TEXTRENDERMODE_FILL,
-        1 => FPDF_TEXTRENDERMODE_STROKE,
-        2 => FPDF_TEXTRENDERMODE_FILL_STROKE,
-        3 => FPDF_TEXTRENDERMODE_INVISIBLE,
-        4 => FPDF_TEXTRENDERMODE_FILL_CLIP,
-        5 => FPDF_TEXTRENDERMODE_STROKE_CLIP,
-        6 => FPDF_TEXTRENDERMODE_FILL_STROKE_CLIP,
-        7 => FPDF_TEXTRENDERMODE_CLIP,
-        _ =>
-          throw ArgumentError("Unknown value for FPDF_TEXT_RENDERMODE: $value"),
-      };
-
-  @override
-  String toString() {
-    if (this == FPDF_TEXTRENDERMODE_CLIP)
-      return "FPDF_TEXT_RENDERMODE.FPDF_TEXTRENDERMODE_CLIP, FPDF_TEXT_RENDERMODE.FPDF_TEXTRENDERMODE_LAST";
-    return super.toString();
-  }
+abstract class FPDF_TEXT_RENDERMODE {
+  static const int FPDF_TEXTRENDERMODE_UNKNOWN = -1;
+  static const int FPDF_TEXTRENDERMODE_FILL = 0;
+  static const int FPDF_TEXTRENDERMODE_STROKE = 1;
+  static const int FPDF_TEXTRENDERMODE_FILL_STROKE = 2;
+  static const int FPDF_TEXTRENDERMODE_INVISIBLE = 3;
+  static const int FPDF_TEXTRENDERMODE_FILL_CLIP = 4;
+  static const int FPDF_TEXTRENDERMODE_STROKE_CLIP = 5;
+  static const int FPDF_TEXTRENDERMODE_FILL_STROKE_CLIP = 6;
+  static const int FPDF_TEXTRENDERMODE_CLIP = 7;
+  static const int FPDF_TEXTRENDERMODE_LAST = 7;
 }
 
 final class fpdf_action_t__ extends ffi.Opaque {}
 
-typedef FPDF_ACTION = ffi.Pointer<fpdf_action_t__>;
-
 final class fpdf_annotation_t__ extends ffi.Opaque {}
-
-typedef FPDF_ANNOTATION = ffi.Pointer<fpdf_annotation_t__>;
 
 final class fpdf_attachment_t__ extends ffi.Opaque {}
 
-typedef FPDF_ATTACHMENT = ffi.Pointer<fpdf_attachment_t__>;
-
 final class fpdf_avail_t__ extends ffi.Opaque {}
-
-typedef FPDF_AVAIL = ffi.Pointer<fpdf_avail_t__>;
 
 final class fpdf_bitmap_t__ extends ffi.Opaque {}
 
-typedef FPDF_BITMAP = ffi.Pointer<fpdf_bitmap_t__>;
-
 final class fpdf_bookmark_t__ extends ffi.Opaque {}
-
-typedef FPDF_BOOKMARK = ffi.Pointer<fpdf_bookmark_t__>;
 
 final class fpdf_clippath_t__ extends ffi.Opaque {}
 
-typedef FPDF_CLIPPATH = ffi.Pointer<fpdf_clippath_t__>;
-
 final class fpdf_dest_t__ extends ffi.Opaque {}
-
-typedef FPDF_DEST = ffi.Pointer<fpdf_dest_t__>;
 
 final class fpdf_document_t__ extends ffi.Opaque {}
 
-typedef FPDF_DOCUMENT = ffi.Pointer<fpdf_document_t__>;
-
 final class fpdf_font_t__ extends ffi.Opaque {}
-
-typedef FPDF_FONT = ffi.Pointer<fpdf_font_t__>;
 
 final class fpdf_form_handle_t__ extends ffi.Opaque {}
 
-typedef FPDF_FORMHANDLE = ffi.Pointer<fpdf_form_handle_t__>;
-
 final class fpdf_glyphpath_t__ extends ffi.Opaque {}
-
-typedef FPDF_GLYPHPATH = ffi.Pointer<fpdf_glyphpath_t__>;
 
 final class fpdf_javascript_action_t extends ffi.Opaque {}
 
-typedef FPDF_JAVASCRIPT_ACTION = ffi.Pointer<fpdf_javascript_action_t>;
-
 final class fpdf_link_t__ extends ffi.Opaque {}
-
-typedef FPDF_LINK = ffi.Pointer<fpdf_link_t__>;
 
 final class fpdf_page_t__ extends ffi.Opaque {}
 
-typedef FPDF_PAGE = ffi.Pointer<fpdf_page_t__>;
-
 final class fpdf_pagelink_t__ extends ffi.Opaque {}
-
-typedef FPDF_PAGELINK = ffi.Pointer<fpdf_pagelink_t__>;
 
 final class fpdf_pageobject_t__ extends ffi.Opaque {}
 
-typedef FPDF_PAGEOBJECT = ffi.Pointer<fpdf_pageobject_t__>;
-
 final class fpdf_pageobjectmark_t__ extends ffi.Opaque {}
-
-typedef FPDF_PAGEOBJECTMARK = ffi.Pointer<fpdf_pageobjectmark_t__>;
 
 final class fpdf_pagerange_t__ extends ffi.Opaque {}
 
-typedef FPDF_PAGERANGE = ffi.Pointer<fpdf_pagerange_t__>;
-
 final class fpdf_pathsegment_t extends ffi.Opaque {}
-
-typedef FPDF_PATHSEGMENT = ffi.Pointer<fpdf_pathsegment_t>;
 
 final class fpdf_schhandle_t__ extends ffi.Opaque {}
 
-typedef FPDF_SCHHANDLE = ffi.Pointer<fpdf_schhandle_t__>;
-
 final class fpdf_signature_t__ extends ffi.Opaque {}
-
-typedef FPDF_SIGNATURE = ffi.Pointer<fpdf_signature_t__>;
-typedef FPDF_SKIA_CANVAS = ffi.Pointer<ffi.Void>;
 
 final class fpdf_structelement_t__ extends ffi.Opaque {}
 
-typedef FPDF_STRUCTELEMENT = ffi.Pointer<fpdf_structelement_t__>;
-
 final class fpdf_structelement_attr_t__ extends ffi.Opaque {}
-
-typedef FPDF_STRUCTELEMENT_ATTR = ffi.Pointer<fpdf_structelement_attr_t__>;
-
-final class fpdf_structelement_attr_value_t__ extends ffi.Opaque {}
-
-typedef FPDF_STRUCTELEMENT_ATTR_VALUE
-    = ffi.Pointer<fpdf_structelement_attr_value_t__>;
 
 final class fpdf_structtree_t__ extends ffi.Opaque {}
 
-typedef FPDF_STRUCTTREE = ffi.Pointer<fpdf_structtree_t__>;
-
 final class fpdf_textpage_t__ extends ffi.Opaque {}
-
-typedef FPDF_TEXTPAGE = ffi.Pointer<fpdf_textpage_t__>;
 
 final class fpdf_widget_t__ extends ffi.Opaque {}
 
-typedef FPDF_WIDGET = ffi.Pointer<fpdf_widget_t__>;
-
 final class fpdf_xobject_t__ extends ffi.Opaque {}
 
-typedef FPDF_XOBJECT = ffi.Pointer<fpdf_xobject_t__>;
-typedef FPDF_BOOL = ffi.Int;
-typedef DartFPDF_BOOL = int;
-typedef FPDF_RESULT = ffi.Int;
-typedef DartFPDF_RESULT = int;
-typedef FPDF_DWORD = ffi.UnsignedLong;
-typedef DartFPDF_DWORD = int;
-typedef FS_FLOAT = ffi.Float;
-typedef DartFS_FLOAT = double;
-
-enum _FPDF_DUPLEXTYPE_ {
-  DuplexUndefined(0),
-  Simplex(1),
-  DuplexFlipShortEdge(2),
-  DuplexFlipLongEdge(3);
-
-  final int value;
-  const _FPDF_DUPLEXTYPE_(this.value);
-
-  static _FPDF_DUPLEXTYPE_ fromValue(int value) => switch (value) {
-        0 => DuplexUndefined,
-        1 => Simplex,
-        2 => DuplexFlipShortEdge,
-        3 => DuplexFlipLongEdge,
-        _ => throw ArgumentError("Unknown value for _FPDF_DUPLEXTYPE_: $value"),
-      };
+abstract class _FPDF_DUPLEXTYPE_ {
+  static const int DuplexUndefined = 0;
+  static const int Simplex = 1;
+  static const int DuplexFlipShortEdge = 2;
+  static const int DuplexFlipLongEdge = 3;
 }
-
-typedef FPDF_WCHAR = ffi.UnsignedShort;
-typedef DartFPDF_WCHAR = int;
-typedef FPDF_BYTESTRING = ffi.Pointer<ffi.Char>;
-typedef FPDF_WIDESTRING = ffi.Pointer<FPDF_WCHAR>;
 
 final class FPDF_BSTR_ extends ffi.Struct {
   external ffi.Pointer<ffi.Char> str;
@@ -6474,9 +6268,6 @@ final class FPDF_BSTR_ extends ffi.Struct {
   @ffi.Int()
   external int len;
 }
-
-typedef FPDF_BSTR = FPDF_BSTR_;
-typedef FPDF_STRING = ffi.Pointer<ffi.Char>;
 
 final class _FS_MATRIX_ extends ffi.Struct {
   @ffi.Float()
@@ -6498,8 +6289,6 @@ final class _FS_MATRIX_ extends ffi.Struct {
   external double f;
 }
 
-typedef FS_MATRIX = _FS_MATRIX_;
-
 final class _FS_RECTF_ extends ffi.Struct {
   @ffi.Float()
   external double left;
@@ -6514,10 +6303,6 @@ final class _FS_RECTF_ extends ffi.Struct {
   external double bottom;
 }
 
-typedef FS_LPRECTF = ffi.Pointer<_FS_RECTF_>;
-typedef FS_RECTF = _FS_RECTF_;
-typedef FS_LPCRECTF = ffi.Pointer<FS_RECTF>;
-
 final class FS_SIZEF_ extends ffi.Struct {
   @ffi.Float()
   external double width;
@@ -6526,10 +6311,6 @@ final class FS_SIZEF_ extends ffi.Struct {
   external double height;
 }
 
-typedef FS_LPSIZEF = ffi.Pointer<FS_SIZEF_>;
-typedef FS_SIZEF = FS_SIZEF_;
-typedef FS_LPCSIZEF = ffi.Pointer<FS_SIZEF>;
-
 final class FS_POINTF_ extends ffi.Struct {
   @ffi.Float()
   external double x;
@@ -6537,10 +6318,6 @@ final class FS_POINTF_ extends ffi.Struct {
   @ffi.Float()
   external double y;
 }
-
-typedef FS_LPPOINTF = ffi.Pointer<FS_POINTF_>;
-typedef FS_POINTF = FS_POINTF_;
-typedef FS_LPCPOINTF = ffi.Pointer<FS_POINTF>;
 
 final class _FS_QUADPOINTSF extends ffi.Struct {
   @FS_FLOAT()
@@ -6568,27 +6345,12 @@ final class _FS_QUADPOINTSF extends ffi.Struct {
   external double y4;
 }
 
-typedef FS_QUADPOINTSF = _FS_QUADPOINTSF;
-typedef FPDF_ANNOTATION_SUBTYPE = ffi.Int;
-typedef DartFPDF_ANNOTATION_SUBTYPE = int;
-typedef FPDF_ANNOT_APPEARANCEMODE = ffi.Int;
-typedef DartFPDF_ANNOT_APPEARANCEMODE = int;
-typedef FPDF_OBJECT_TYPE = ffi.Int;
-typedef DartFPDF_OBJECT_TYPE = int;
+typedef FS_FLOAT = ffi.Float;
+typedef DartFS_FLOAT = double;
 
-enum FPDF_RENDERER_TYPE {
-  FPDF_RENDERERTYPE_AGG(0),
-  FPDF_RENDERERTYPE_SKIA(1);
-
-  final int value;
-  const FPDF_RENDERER_TYPE(this.value);
-
-  static FPDF_RENDERER_TYPE fromValue(int value) => switch (value) {
-        0 => FPDF_RENDERERTYPE_AGG,
-        1 => FPDF_RENDERERTYPE_SKIA,
-        _ =>
-          throw ArgumentError("Unknown value for FPDF_RENDERER_TYPE: $value"),
-      };
+abstract class FPDF_RENDERER_TYPE {
+  static const int FPDF_RENDERERTYPE_AGG = 0;
+  static const int FPDF_RENDERERTYPE_SKIA = 1;
 }
 
 final class FPDF_LIBRARY_CONFIG_ extends ffi.Struct {
@@ -6604,14 +6366,18 @@ final class FPDF_LIBRARY_CONFIG_ extends ffi.Struct {
 
   external ffi.Pointer<ffi.Void> m_pPlatform;
 
-  @ffi.UnsignedInt()
-  external int m_RendererTypeAsInt;
-
-  FPDF_RENDERER_TYPE get m_RendererType =>
-      FPDF_RENDERER_TYPE.fromValue(m_RendererTypeAsInt);
+  @ffi.Int32()
+  external int m_RendererType;
 }
 
 typedef FPDF_LIBRARY_CONFIG = FPDF_LIBRARY_CONFIG_;
+typedef FPDF_DWORD = ffi.UnsignedLong;
+typedef DartFPDF_DWORD = int;
+typedef FPDF_BOOL = ffi.Int;
+typedef DartFPDF_BOOL = int;
+typedef FPDF_DOCUMENT = ffi.Pointer<fpdf_document_t__>;
+typedef FPDF_STRING = ffi.Pointer<ffi.Char>;
+typedef FPDF_BYTESTRING = ffi.Pointer<ffi.Char>;
 
 final class FPDF_FILEACCESS extends ffi.Struct {
   @ffi.UnsignedLong()
@@ -6666,7 +6432,11 @@ final class FPDF_FILEHANDLER_ extends ffi.Struct {
               ffi.Pointer<ffi.Void> clientData, FPDF_DWORD size)>> Truncate;
 }
 
-typedef FPDF_FILEHANDLER = FPDF_FILEHANDLER_;
+typedef FPDF_RESULT = ffi.Int;
+typedef DartFPDF_RESULT = int;
+typedef FPDF_PAGE = ffi.Pointer<fpdf_page_t__>;
+typedef FS_RECTF = _FS_RECTF_;
+typedef FS_SIZEF = FS_SIZEF_;
 
 final class FPDF_COLORSCHEME_ extends ffi.Struct {
   @FPDF_DWORD()
@@ -6682,14 +6452,77 @@ final class FPDF_COLORSCHEME_ extends ffi.Struct {
   external int text_stroke_color;
 }
 
-typedef FPDF_COLORSCHEME = FPDF_COLORSCHEME_;
+typedef HDC = ffi.Pointer<HDC__>;
 
 final class HDC__ extends ffi.Struct {
   @ffi.Int()
   external int unused;
 }
 
-typedef HDC = ffi.Pointer<HDC__>;
+typedef FPDF_BITMAP = ffi.Pointer<fpdf_bitmap_t__>;
+typedef FS_MATRIX = _FS_MATRIX_;
+typedef FPDF_PAGERANGE = ffi.Pointer<fpdf_pagerange_t__>;
+typedef FPDF_DEST = ffi.Pointer<fpdf_dest_t__>;
+
+abstract class FPDFANNOT_COLORTYPE {
+  static const int FPDFANNOT_COLORTYPE_Color = 0;
+  static const int FPDFANNOT_COLORTYPE_InteriorColor = 1;
+}
+
+typedef FPDF_ANNOTATION_SUBTYPE = ffi.Int;
+typedef DartFPDF_ANNOTATION_SUBTYPE = int;
+typedef FPDF_ANNOTATION = ffi.Pointer<fpdf_annotation_t__>;
+typedef FPDF_PAGEOBJECT = ffi.Pointer<fpdf_pageobject_t__>;
+typedef FS_POINTF = FS_POINTF_;
+typedef FS_QUADPOINTSF = _FS_QUADPOINTSF;
+typedef FPDF_FORMHANDLE = ffi.Pointer<fpdf_form_handle_t__>;
+typedef FPDF_WCHAR = ffi.UnsignedShort;
+typedef DartFPDF_WCHAR = int;
+typedef FPDF_OBJECT_TYPE = ffi.Int;
+typedef DartFPDF_OBJECT_TYPE = int;
+typedef FPDF_WIDESTRING = ffi.Pointer<FPDF_WCHAR>;
+typedef FPDF_ANNOT_APPEARANCEMODE = ffi.Int;
+typedef DartFPDF_ANNOT_APPEARANCEMODE = int;
+typedef FPDF_LINK = ffi.Pointer<fpdf_link_t__>;
+typedef FPDF_TEXTPAGE = ffi.Pointer<fpdf_textpage_t__>;
+typedef FPDF_SCHHANDLE = ffi.Pointer<fpdf_schhandle_t__>;
+typedef FPDF_PAGELINK = ffi.Pointer<fpdf_pagelink_t__>;
+
+abstract class FPDF_FILEIDTYPE {
+  static const int FILEIDTYPE_PERMANENT = 0;
+  static const int FILEIDTYPE_CHANGING = 1;
+}
+
+typedef FPDF_BOOKMARK = ffi.Pointer<fpdf_bookmark_t__>;
+typedef FPDF_ACTION = ffi.Pointer<fpdf_action_t__>;
+
+final class FPDF_IMAGEOBJ_METADATA extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int width;
+
+  @ffi.UnsignedInt()
+  external int height;
+
+  @ffi.Float()
+  external double horizontal_dpi;
+
+  @ffi.Float()
+  external double vertical_dpi;
+
+  @ffi.UnsignedInt()
+  external int bits_per_pixel;
+
+  @ffi.Int()
+  external int colorspace;
+
+  @ffi.Int()
+  external int marked_content_id;
+}
+
+typedef FPDF_PAGEOBJECTMARK = ffi.Pointer<fpdf_pageobjectmark_t__>;
+typedef FPDF_PATHSEGMENT = ffi.Pointer<fpdf_pathsegment_t>;
+typedef FPDF_FONT = ffi.Pointer<fpdf_font_t__>;
+typedef FPDF_GLYPHPATH = ffi.Pointer<fpdf_glyphpath_t__>;
 
 final class _IPDF_JsPlatform extends ffi.Struct {
   @ffi.Int()
@@ -6779,11 +6612,6 @@ final class _IPDF_JsPlatform extends ffi.Struct {
   external int m_v8EmbedderSlot;
 }
 
-typedef IPDF_JSPLATFORM = _IPDF_JsPlatform;
-typedef TimerCallbackFunction = ffi.Void Function(ffi.Int idEvent);
-typedef DartTimerCallbackFunction = void Function(int idEvent);
-typedef TimerCallback = ffi.Pointer<ffi.NativeFunction<TimerCallbackFunction>>;
-
 final class _FPDF_SYSTEMTIME extends ffi.Struct {
   @ffi.UnsignedShort()
   external int wYear;
@@ -6809,8 +6637,6 @@ final class _FPDF_SYSTEMTIME extends ffi.Struct {
   @ffi.UnsignedShort()
   external int wMilliseconds;
 }
-
-typedef FPDF_SYSTEMTIME = _FPDF_SYSTEMTIME;
 
 final class _FPDF_FORMFILLINFO extends ffi.Struct {
   @ffi.Int()
@@ -7033,6 +6859,26 @@ final class _FPDF_FORMFILLINFO extends ffi.Struct {
           ffi.Void Function(ffi.Pointer<_FPDF_FORMFILLINFO> param,
               FPDF_ANNOTATION annot, ffi.Int page_index)>> FFI_OnFocusChange;
 
+  /// Method: FFI_DoURIActionWithKeyboardModifier
+  /// Ask the implementation to navigate to a uniform resource identifier
+  /// with the specified modifiers.
+  /// Interface Version:
+  /// Ignored if |version| < 2.
+  /// Implementation Required:
+  /// No
+  /// Parameters:
+  /// param           -   Pointer to the interface structure itself.
+  /// uri             -   A byte string which indicates the uniform
+  /// resource identifier, terminated by 0.
+  /// modifiers       -   Keyboard modifier that indicates which of
+  /// the virtual keys are down, if any.
+  /// Return value:
+  /// None.
+  /// Comments:
+  /// If the embedder who is version 2 and does not implement this API,
+  /// then a call will be redirected to FFI_DoURIAction.
+  /// See the URI actions description of <<PDF Reference, version 1.7>>
+  /// for more details.
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
@@ -7041,59 +6887,15 @@ final class _FPDF_FORMFILLINFO extends ffi.Struct {
               ffi.Int modifiers)>> FFI_DoURIActionWithKeyboardModifier;
 }
 
+typedef TimerCallback = ffi.Pointer<ffi.NativeFunction<TimerCallbackFunction>>;
+typedef TimerCallbackFunction = ffi.Void Function(ffi.Int idEvent);
+typedef DartTimerCallbackFunction = void Function(int idEvent);
+typedef FPDF_SYSTEMTIME = _FPDF_SYSTEMTIME;
+typedef IPDF_JSPLATFORM = _IPDF_JsPlatform;
+typedef FPDF_WIDGET = ffi.Pointer<fpdf_widget_t__>;
+typedef FPDF_FILEHANDLER = FPDF_FILEHANDLER_;
+typedef FPDF_BSTR = FPDF_BSTR_;
 typedef FPDF_FORMFILLINFO = _FPDF_FORMFILLINFO;
-
-enum FPDFANNOT_COLORTYPE {
-  FPDFANNOT_COLORTYPE_Color(0),
-  FPDFANNOT_COLORTYPE_InteriorColor(1);
-
-  final int value;
-  const FPDFANNOT_COLORTYPE(this.value);
-
-  static FPDFANNOT_COLORTYPE fromValue(int value) => switch (value) {
-        0 => FPDFANNOT_COLORTYPE_Color,
-        1 => FPDFANNOT_COLORTYPE_InteriorColor,
-        _ =>
-          throw ArgumentError("Unknown value for FPDFANNOT_COLORTYPE: $value"),
-      };
-}
-
-enum FPDF_FILEIDTYPE {
-  FILEIDTYPE_PERMANENT(0),
-  FILEIDTYPE_CHANGING(1);
-
-  final int value;
-  const FPDF_FILEIDTYPE(this.value);
-
-  static FPDF_FILEIDTYPE fromValue(int value) => switch (value) {
-        0 => FILEIDTYPE_PERMANENT,
-        1 => FILEIDTYPE_CHANGING,
-        _ => throw ArgumentError("Unknown value for FPDF_FILEIDTYPE: $value"),
-      };
-}
-
-final class FPDF_IMAGEOBJ_METADATA extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int width;
-
-  @ffi.UnsignedInt()
-  external int height;
-
-  @ffi.Float()
-  external double horizontal_dpi;
-
-  @ffi.Float()
-  external double vertical_dpi;
-
-  @ffi.UnsignedInt()
-  external int bits_per_pixel;
-
-  @ffi.Int()
-  external int colorspace;
-
-  @ffi.Int()
-  external int marked_content_id;
-}
 
 const int FPDF_OBJECT_UNKNOWN = 0;
 
@@ -7168,100 +6970,6 @@ const int FPDFBitmap_BGR = 2;
 const int FPDFBitmap_BGRx = 3;
 
 const int FPDFBitmap_BGRA = 4;
-
-const int FORMTYPE_NONE = 0;
-
-const int FORMTYPE_ACRO_FORM = 1;
-
-const int FORMTYPE_XFA_FULL = 2;
-
-const int FORMTYPE_XFA_FOREGROUND = 3;
-
-const int FORMTYPE_COUNT = 4;
-
-const int JSPLATFORM_ALERT_BUTTON_OK = 0;
-
-const int JSPLATFORM_ALERT_BUTTON_OKCANCEL = 1;
-
-const int JSPLATFORM_ALERT_BUTTON_YESNO = 2;
-
-const int JSPLATFORM_ALERT_BUTTON_YESNOCANCEL = 3;
-
-const int JSPLATFORM_ALERT_BUTTON_DEFAULT = 0;
-
-const int JSPLATFORM_ALERT_ICON_ERROR = 0;
-
-const int JSPLATFORM_ALERT_ICON_WARNING = 1;
-
-const int JSPLATFORM_ALERT_ICON_QUESTION = 2;
-
-const int JSPLATFORM_ALERT_ICON_STATUS = 3;
-
-const int JSPLATFORM_ALERT_ICON_ASTERISK = 4;
-
-const int JSPLATFORM_ALERT_ICON_DEFAULT = 0;
-
-const int JSPLATFORM_ALERT_RETURN_OK = 1;
-
-const int JSPLATFORM_ALERT_RETURN_CANCEL = 2;
-
-const int JSPLATFORM_ALERT_RETURN_NO = 3;
-
-const int JSPLATFORM_ALERT_RETURN_YES = 4;
-
-const int JSPLATFORM_BEEP_ERROR = 0;
-
-const int JSPLATFORM_BEEP_WARNING = 1;
-
-const int JSPLATFORM_BEEP_QUESTION = 2;
-
-const int JSPLATFORM_BEEP_STATUS = 3;
-
-const int JSPLATFORM_BEEP_DEFAULT = 4;
-
-const int FXCT_ARROW = 0;
-
-const int FXCT_NESW = 1;
-
-const int FXCT_NWSE = 2;
-
-const int FXCT_VBEAM = 3;
-
-const int FXCT_HBEAM = 4;
-
-const int FXCT_HAND = 5;
-
-const int FPDFDOC_AACTION_WC = 16;
-
-const int FPDFDOC_AACTION_WS = 17;
-
-const int FPDFDOC_AACTION_DS = 18;
-
-const int FPDFDOC_AACTION_WP = 19;
-
-const int FPDFDOC_AACTION_DP = 20;
-
-const int FPDFPAGE_AACTION_OPEN = 0;
-
-const int FPDFPAGE_AACTION_CLOSE = 1;
-
-const int FPDF_FORMFIELD_UNKNOWN = 0;
-
-const int FPDF_FORMFIELD_PUSHBUTTON = 1;
-
-const int FPDF_FORMFIELD_CHECKBOX = 2;
-
-const int FPDF_FORMFIELD_RADIOBUTTON = 3;
-
-const int FPDF_FORMFIELD_COMBOBOX = 4;
-
-const int FPDF_FORMFIELD_LISTBOX = 5;
-
-const int FPDF_FORMFIELD_TEXTFIELD = 6;
-
-const int FPDF_FORMFIELD_SIGNATURE = 7;
-
-const int FPDF_FORMFIELD_COUNT = 8;
 
 const int FPDF_ANNOT_UNKNOWN = 0;
 
@@ -7494,3 +7202,97 @@ const int FPDF_PRINTMODE_EMF_IMAGE_MASKS = 6;
 const int FPDF_PRINTMODE_POSTSCRIPT3_TYPE42 = 7;
 
 const int FPDF_PRINTMODE_POSTSCRIPT3_TYPE42_PASSTHROUGH = 8;
+
+const int FORMTYPE_NONE = 0;
+
+const int FORMTYPE_ACRO_FORM = 1;
+
+const int FORMTYPE_XFA_FULL = 2;
+
+const int FORMTYPE_XFA_FOREGROUND = 3;
+
+const int FORMTYPE_COUNT = 4;
+
+const int JSPLATFORM_ALERT_BUTTON_OK = 0;
+
+const int JSPLATFORM_ALERT_BUTTON_OKCANCEL = 1;
+
+const int JSPLATFORM_ALERT_BUTTON_YESNO = 2;
+
+const int JSPLATFORM_ALERT_BUTTON_YESNOCANCEL = 3;
+
+const int JSPLATFORM_ALERT_BUTTON_DEFAULT = 0;
+
+const int JSPLATFORM_ALERT_ICON_ERROR = 0;
+
+const int JSPLATFORM_ALERT_ICON_WARNING = 1;
+
+const int JSPLATFORM_ALERT_ICON_QUESTION = 2;
+
+const int JSPLATFORM_ALERT_ICON_STATUS = 3;
+
+const int JSPLATFORM_ALERT_ICON_ASTERISK = 4;
+
+const int JSPLATFORM_ALERT_ICON_DEFAULT = 0;
+
+const int JSPLATFORM_ALERT_RETURN_OK = 1;
+
+const int JSPLATFORM_ALERT_RETURN_CANCEL = 2;
+
+const int JSPLATFORM_ALERT_RETURN_NO = 3;
+
+const int JSPLATFORM_ALERT_RETURN_YES = 4;
+
+const int JSPLATFORM_BEEP_ERROR = 0;
+
+const int JSPLATFORM_BEEP_WARNING = 1;
+
+const int JSPLATFORM_BEEP_QUESTION = 2;
+
+const int JSPLATFORM_BEEP_STATUS = 3;
+
+const int JSPLATFORM_BEEP_DEFAULT = 4;
+
+const int FXCT_ARROW = 0;
+
+const int FXCT_NESW = 1;
+
+const int FXCT_NWSE = 2;
+
+const int FXCT_VBEAM = 3;
+
+const int FXCT_HBEAM = 4;
+
+const int FXCT_HAND = 5;
+
+const int FPDFDOC_AACTION_WC = 16;
+
+const int FPDFDOC_AACTION_WS = 17;
+
+const int FPDFDOC_AACTION_DS = 18;
+
+const int FPDFDOC_AACTION_WP = 19;
+
+const int FPDFDOC_AACTION_DP = 20;
+
+const int FPDFPAGE_AACTION_OPEN = 0;
+
+const int FPDFPAGE_AACTION_CLOSE = 1;
+
+const int FPDF_FORMFIELD_UNKNOWN = 0;
+
+const int FPDF_FORMFIELD_PUSHBUTTON = 1;
+
+const int FPDF_FORMFIELD_CHECKBOX = 2;
+
+const int FPDF_FORMFIELD_RADIOBUTTON = 3;
+
+const int FPDF_FORMFIELD_COMBOBOX = 4;
+
+const int FPDF_FORMFIELD_LISTBOX = 5;
+
+const int FPDF_FORMFIELD_TEXTFIELD = 6;
+
+const int FPDF_FORMFIELD_SIGNATURE = 7;
+
+const int FPDF_FORMFIELD_COUNT = 8;

@@ -5,8 +5,8 @@ if [ "$2" = "" ]; then
   exit 1
 fi
 
-# https://pdfium.googlesource.com/pdfium/+/refs/heads/chromium/6555
-LAST_KNOWN_GOOD_COMMIT=5a6a8741b0e111a6b5bd9ab4e1036377c98885dc
+# https://pdfium.googlesource.com/pdfium/+/refs/heads/chromium/6150
+LAST_KNOWN_GOOD_COMMIT=1e9d89db3c00fd1eab2959bd063832bebe6b868d
 
 SCRIPT_DIR=$(cd $(dirname $0) && pwd)
 
@@ -93,22 +93,22 @@ fi
 if [[ "$TARGET_OS" == "ios" ]]; then
   # (cd $PDFIUM_SRCDIR && git diff > ../../../patches/ios/pdfium.patch)
   pushd $PDFIUM_SRCDIR
-  git apply --reject --whitespace=fix $SCRIPT_DIR/patches/ios/pdfium.patch
+  git apply $SCRIPT_DIR/patches/ios/pdfium.patch
   popd
   # (cd $PDFIUM_SRCDIR/third_party/libjpeg_turbo && git diff > ../../../../../patches/ios/libjpeg_turbo.patch)
   pushd $PDFIUM_SRCDIR/third_party/libjpeg_turbo/
-  git apply --reject --whitespace=fix $SCRIPT_DIR/patches/ios/libjpeg_turbo.patch
+  git apply $SCRIPT_DIR/patches/ios/libjpeg_turbo.patch
   popd
 fi
 
 if [[ "$TARGET_OS" == "mac" ]]; then
   # (cd $PDFIUM_SRCDIR && git diff > ../../../patches/macos/pdfium.patch)
   pushd $PDFIUM_SRCDIR
-  git apply --reject --whitespace=fix $SCRIPT_DIR/patches/macos/pdfium.patch
+  git apply $SCRIPT_DIR/patches/macos/pdfium.patch
   popd
   # (cd $PDFIUM_SRCDIR/build && git diff > ../../../../patches/macos/build-config.patch)
   pushd $PDFIUM_SRCDIR/build
-  git apply --reject --whitespace=fix $SCRIPT_DIR/patches/macos/build-config.patch
+  git apply $SCRIPT_DIR/patches/macos/build-config.patch
   popd
 fi
 

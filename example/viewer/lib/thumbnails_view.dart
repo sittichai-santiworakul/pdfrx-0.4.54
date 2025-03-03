@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
 
 class ThumbnailsView extends StatelessWidget {
-  const ThumbnailsView({required this.documentRef, required this.controller, super.key});
+  const ThumbnailsView(
+      {super.key, required this.documentRef, required this.controller});
 
   final PdfDocumentRef? documentRef;
   final PdfViewerController? controller;
@@ -31,7 +32,6 @@ class ThumbnailsView extends StatelessWidget {
                           child: InkWell(
                             onTap: () => controller!.goToPage(
                               pageNumber: index + 1,
-                              anchor: PdfPageAnchor.top,
                             ),
                             child: PdfPageView(
                               document: document,
