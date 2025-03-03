@@ -29,6 +29,10 @@ class PdfViewerParams {
     this.onInteractionStart,
     this.onInteractionUpdate,
     this.interactionEndFrictionCoefficient = _kDrag,
+    this.interactionEndFrictionCoefficientY,
+    this.isUseCheckCurrentAxis = false,
+    this.tFinalDuration = 1000,
+    this.tFinalDurationAxis = 2000,
     this.onDocumentChanged,
     this.calculateInitialPageNumber,
     this.onViewerReady,
@@ -143,6 +147,26 @@ class PdfViewerParams {
 
   /// See [InteractiveViewer.interactionEndFrictionCoefficient] for details.
   final double interactionEndFrictionCoefficient;
+
+  /// Defaults Null.
+  ///
+  /// ค่าเฉพาะแกน Y
+  final double? interactionEndFrictionCoefficientY;
+
+  /// Defaults false.
+  ///
+  /// Check condition by current axis
+  final bool isUseCheckCurrentAxis;
+
+  /// Defaults 1000.
+  ///
+  /// ค่าสำหรับคำนวนกับ tFinal
+  final int tFinalDuration;
+
+  /// Defaults 2000.
+  ///
+  /// ค่าสำหรับคำนวนกับ tFinal กรณีใช้ isUseCheckCurrentAxis = true
+  final int tFinalDurationAxis;
 
   // Used as the coefficient of friction in the inertial translation animation.
   // This value was eyeballed to give a feel similar to Google Photos.
@@ -321,6 +345,14 @@ class PdfViewerParams {
         other.scaleEnabled != scaleEnabled ||
         other.interactionEndFrictionCoefficient !=
             interactionEndFrictionCoefficient ||
+        other.interactionEndFrictionCoefficientY !=
+            interactionEndFrictionCoefficientY ||
+        other.isUseCheckCurrentAxis !=
+            isUseCheckCurrentAxis ||
+        other.tFinalDuration !=
+            tFinalDuration ||
+        other.tFinalDurationAxis !=
+            tFinalDurationAxis ||
         other.scrollByMouseWheel != scrollByMouseWheel ||
         other.enableKeyboardNavigation != enableKeyboardNavigation ||
         other.scrollByArrowKey != scrollByArrowKey ||
@@ -350,6 +382,14 @@ class PdfViewerParams {
         other.onInteractionUpdate == onInteractionUpdate &&
         other.interactionEndFrictionCoefficient ==
             interactionEndFrictionCoefficient &&
+        other.interactionEndFrictionCoefficientY ==
+            interactionEndFrictionCoefficientY &&
+        other.isUseCheckCurrentAxis ==
+            isUseCheckCurrentAxis &&
+        other.tFinalDuration ==
+            tFinalDuration &&
+        other.tFinalDurationAxis ==
+            tFinalDurationAxis &&
         other.onDocumentChanged == onDocumentChanged &&
         other.calculateInitialPageNumber == calculateInitialPageNumber &&
         other.onViewerReady == onViewerReady &&
@@ -388,6 +428,10 @@ class PdfViewerParams {
         onInteractionStart.hashCode ^
         onInteractionUpdate.hashCode ^
         interactionEndFrictionCoefficient.hashCode ^
+        interactionEndFrictionCoefficientY.hashCode ^
+        isUseCheckCurrentAxis.hashCode ^
+        tFinalDuration.hashCode ^
+        tFinalDurationAxis.hashCode ^
         onDocumentChanged.hashCode ^
         calculateInitialPageNumber.hashCode ^
         onViewerReady.hashCode ^

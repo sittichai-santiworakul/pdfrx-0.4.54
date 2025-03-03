@@ -55,6 +55,10 @@ class InteractiveViewer extends StatefulWidget {
     this.maxScale = 8.0,
     this.minScale = 0.8,
     this.interactionEndFrictionCoefficient = _kDrag,
+    this.interactionEndFrictionCoefficientY,
+    this.isUseCheckCurrentAxis = false,
+    this.tFinalDuration = 1000,
+    this.tFinalDurationAxis = 2000,
     this.onInteractionEnd,
     this.onInteractionStart,
     this.onInteractionUpdate,
@@ -67,6 +71,7 @@ class InteractiveViewer extends StatefulWidget {
     this.onWheelDelta,
   })  : assert(minScale > 0),
         assert(interactionEndFrictionCoefficient > 0),
+        // assert(interactionEndFrictionCoefficientY > 0),
         assert(minScale.isFinite),
         assert(maxScale > 0),
         assert(!maxScale.isNaN),
@@ -101,6 +106,10 @@ class InteractiveViewer extends StatefulWidget {
     this.maxScale = 8.0,
     this.minScale = 0.8,
     this.interactionEndFrictionCoefficient = _kDrag,
+    this.interactionEndFrictionCoefficientY,
+    this.isUseCheckCurrentAxis = false,
+    this.tFinalDuration = 1000,
+    this.tFinalDurationAxis = 2000,
     this.onInteractionEnd,
     this.onInteractionStart,
     this.onInteractionUpdate,
@@ -113,6 +122,7 @@ class InteractiveViewer extends StatefulWidget {
     this.onWheelDelta,
   })  : assert(minScale > 0),
         assert(interactionEndFrictionCoefficient > 0),
+        // assert(interactionEndFrictionCoefficientY > 0),
         assert(minScale.isFinite),
         assert(maxScale > 0),
         assert(!maxScale.isNaN),
@@ -285,6 +295,26 @@ class InteractiveViewer extends StatefulWidget {
   ///
   /// Must be a finite number greater than zero.
   final double interactionEndFrictionCoefficient;
+
+  /// Defaults Null.
+  ///
+  /// ค่าเฉพาะแกน Y
+  final double? interactionEndFrictionCoefficientY;
+
+  /// Defaults false.
+  ///
+  /// Check condition by current axis
+  final bool isUseCheckCurrentAxis;
+
+  /// Defaults 1000.
+  ///
+  /// ค่าสำหรับคำนวนกับ tFinal
+  final int tFinalDuration;
+
+  /// Defaults 2000.
+  ///
+  /// ค่าสำหรับคำนวนกับ tFinal กรณีใช้ isUseCheckCurrentAxis = true
+  final int tFinalDurationAxis;
 
   /// Called when the user ends a pan or scale gesture on the widget.
   ///
@@ -903,7 +933,8 @@ class _InteractiveViewerState extends State<InteractiveViewer>
         details.velocity.pixelsPerSecond.dx,
       );
       final FrictionSimulation frictionSimulationY = FrictionSimulation(
-        widget.interactionEndFrictionCoefficient,
+        widget.interactionEndFrictionCoefficientY ??
+            widget.interactionEndFrictionCoefficient,
         translation.dy,
         details.velocity.pixelsPerSecond.dy,
       );
@@ -918,7 +949,14 @@ class _InteractiveViewerState extends State<InteractiveViewer>
         parent: _controller,
         curve: Curves.decelerate,
       ));
-      _controller.duration = Duration(milliseconds: (tFinal * 1000).round());
+      _controller.duration = widget.isUseCheckCurrentAxis
+          ? Duration(
+              milliseconds: (tFinal *
+                      (_currentAxis == Axis.vertical
+                          ? widget.tFinalDurationAxis
+                          : widget.tFinalDuration))
+                  .round())
+          : Duration(milliseconds: (tFinal * widget.tFinalDuration).round());
       _animation!.addListener(_onAnimate);
       _controller.forward();
     } else if (_gestureType == _GestureType.scale) {
